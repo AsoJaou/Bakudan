@@ -32,7 +32,9 @@ public class PlayerController : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
+            int GroundLayerMask = 1 << LayerMask.NameToLayer("Ground");
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundLayerMask))
             {
                 Vector3 HitPosition = hit.point;
                 if (hit.collider.gameObject == MovableTerrain)
@@ -40,7 +42,7 @@ public class PlayerController : MonoBehaviour
                     transform.LookAt(HitPosition);
                     if (isMoving != null)
                     {
-                    StopCoroutine(isMoving);  
+                        StopCoroutine(isMoving);
                     }
                     targetPos = Vector3.zero;
                     displacement = Vector3.zero;
