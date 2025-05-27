@@ -5,9 +5,16 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Move Settings")]
+    [SerializeField]
+    private float moveSpeed = 10f;
+
+    [Header("Public Variables")]
+    [SerializeField]
     public GameObject MovableTerrain;
 
-    private InputAction clickToMove;
+    //Input Actions
+    private InputAction leftClick;
 
     //Movement Variables
     private Coroutine isMoving;
@@ -16,18 +23,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 displacement;
     private Vector3 direction;
 
-    [Header("Move Settings")]
-    [SerializeField]
-    private float moveSpeed = 10f;
-
     private void Start()
     {
-        clickToMove = InputSystem.actions.FindAction("Move");
+        leftClick = InputSystem.actions.FindAction("Move");
     }
 
     private void Update()
     {
-        if (clickToMove.WasPressedThisFrame())
+        if (leftClick.WasPressedThisFrame())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
