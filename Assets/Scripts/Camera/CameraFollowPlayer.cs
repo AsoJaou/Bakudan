@@ -3,11 +3,20 @@ using UnityEngine.InputSystem;
 
 public class CameraFollowPlayer : MonoBehaviour
 {
+    [Header("Public Variables")]
+    [SerializeField]
     public Transform Player;
+
+    //Input Actions
+    private InputAction Y;
+
+    //Camera Settings
     private Vector3 cameraDistance;
     private bool cameraFollow;
 
-    private InputAction Y;
+    //Camera - Mouse Control
+    private float edgeThreshold = 5f;
+    private Vector3 mousePosition;
 
     private void Start()
     {
@@ -41,6 +50,8 @@ public class CameraFollowPlayer : MonoBehaviour
 
     void FollowMouse ()
     {
-        return;
+        mousePosition = Input.mousePosition;
+        //private bool isTouchingLeftEdge = Mouse.position.x <= edgeThreshold;
+        
     }
 }
