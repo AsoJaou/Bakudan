@@ -39,7 +39,16 @@ public class CameraFollowPlayer : MonoBehaviour
         }
         else
         {
-            Debug.Log(UnlockedCamera());
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            int GroundLayerMask = 1 << LayerMask.NameToLayer("Ground");
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundLayerMask))
+            {
+                Vector3 HitPosition = hit.point;
+                Debug.Log(HitPosition);
+            }
         }
     }
 
