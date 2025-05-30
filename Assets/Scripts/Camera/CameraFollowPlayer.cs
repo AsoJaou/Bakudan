@@ -39,7 +39,7 @@ public class CameraFollowPlayer : MonoBehaviour
         }
         else
         {
-            UnlockedCamera();
+            Debug.Log(UnlockedCamera());
         }
     }
 
