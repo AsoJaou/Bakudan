@@ -14,7 +14,7 @@ public class CameraFollowPlayer : MonoBehaviour
     private Vector3 cameraDistance;
     private bool cameraFollow;
 
-    //Camera - Mouse Control
+    //Unlocked Camera
     private float edgeThreshold = 5f;
     private Vector3 mousePosition;
 
@@ -35,20 +35,20 @@ public class CameraFollowPlayer : MonoBehaviour
 
         if (cameraFollow)
         {
-            FollowPlayer();
+            LockedCamera();
         }
         else
         {
-            FollowMouse();
+            UnlockedCamera();
         }
     }
 
-    void FollowPlayer ()
+    void LockedCamera()
     {
         transform.position = Player.transform.position + cameraDistance;
     }
 
-    void FollowMouse ()
+    void UnlockedCamera()
     {
         mousePosition = Input.mousePosition;
         //private bool isTouchingLeftEdge = Mouse.position.x <= edgeThreshold;
