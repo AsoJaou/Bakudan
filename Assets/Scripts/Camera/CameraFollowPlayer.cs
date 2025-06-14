@@ -57,7 +57,7 @@ public class CameraFollowPlayer : MonoBehaviour
         transform.position = Player.transform.position + cameraDistance;
     }
 
-    bool UnlockedCamera()
+    bool IsTouchingEdge()
     {
         mousePosition = Input.mousePosition;
         bool isTouchingLeftEdge = mousePosition.x <= edgeThreshold;
