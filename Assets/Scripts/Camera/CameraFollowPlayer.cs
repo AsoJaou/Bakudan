@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,7 +17,10 @@ public class CameraFollowPlayer : MonoBehaviour
 
     //Unlocked Camera
     private float edgeThreshold = 5f;
+    private float cameraMoveSpeed = 20f;
     private Vector3 mousePosition;
+    private Vector3 displacement;
+    private Vector3 direction;
 
     private void Start()
     {
@@ -39,15 +43,20 @@ public class CameraFollowPlayer : MonoBehaviour
         }
         else
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            int GroundLayerMask = 1 << LayerMask.NameToLayer("Ground");
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundLayerMask))
+            if (IsTouchingEdge())
             {
-                Vector3 HitPosition = hit.point;
-                Debug.Log(HitPosition);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                int GroundLayerMask = 1 << LayerMask.NameToLayer("Ground");
+
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundLayerMask))
+                {
+                    Vector3 HitPosition = hit.point;
+                    displacement = new Vector3(HitPosition.x - transform.position.x, 0, HitPosition.z - transform.position.z);
+                    direction = displacement.normalized * Time.deltaTime;
+                    transform.position += direction * cameraMoveSpeed;
+                }
             }
         }
     }
@@ -66,5 +75,10 @@ public class CameraFollowPlayer : MonoBehaviour
         bool isTouchingBottomEdge = mousePosition.y <= edgeThreshold;
 
         return isTouchingBottomEdge || isTouchingLeftEdge || isTouchingRightEdge || isTouchingTopEdge;
+    }
+
+    void MoveCamera()
+    {
+
     }
 }
