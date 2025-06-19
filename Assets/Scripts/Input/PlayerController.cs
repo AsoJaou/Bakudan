@@ -32,9 +32,7 @@ public class PlayerController : MonoBehaviour
     {
         if (rightClick.WasPressedThisFrame())
         {
-            RaycastHit? hitInfo = MouseLayerDetection();
-
-            Debug.Log(hitInfo);
+            GameObject hitInfo = MouseLayerDetection();
             /*
             if (hit.collider.gameObject == MovableTerrain)
             {
@@ -67,7 +65,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    RaycastHit? MouseLayerDetection()
+    GameObject MouseLayerDetection()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -78,7 +76,9 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, DetectableLayers))
         {
-            return hit;
+            GameObject HitObject = hit.collider.gameObject;
+
+            return HitObject;
         }
         else
         {
