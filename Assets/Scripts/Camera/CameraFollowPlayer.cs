@@ -10,6 +10,7 @@ public class CameraFollowPlayer : MonoBehaviour
 
     //Input Actions
     private InputAction Y;
+    private InputAction Space;
 
     //Camera Settings
     private Vector3 cameraDistance;
@@ -25,6 +26,7 @@ public class CameraFollowPlayer : MonoBehaviour
     private void Start()
     {
         Y = InputSystem.actions.FindAction("Y");
+        Space = InputSystem.actions.FindAction("Space");
         cameraDistance = transform.position - Player.transform.position;
         cameraFollow = true;
     }
@@ -43,6 +45,10 @@ public class CameraFollowPlayer : MonoBehaviour
         }
         else
         {
+            if (Space.IsPressed())
+            {
+                Debug.Log("Space Pressed");
+            }
             if (IsTouchingEdge())
             {
                 UnlockedCameraMovement();
