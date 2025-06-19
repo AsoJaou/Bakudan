@@ -45,18 +45,7 @@ public class CameraFollowPlayer : MonoBehaviour
         {
             if (IsTouchingEdge())
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                int GroundLayerMask = 1 << LayerMask.NameToLayer("Ground");
-
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundLayerMask))
-                {
-                    Vector3 HitPosition = hit.point;
-                    displacement = new Vector3(HitPosition.x - transform.position.x, 0, HitPosition.z - transform.position.z);
-                    direction = displacement.normalized * Time.deltaTime;
-                    transform.position += direction * cameraMoveSpeed;
-                }
+                UnlockedCameraMovement();
             }
         }
     }
@@ -77,8 +66,19 @@ public class CameraFollowPlayer : MonoBehaviour
         return isTouchingBottomEdge || isTouchingLeftEdge || isTouchingRightEdge || isTouchingTopEdge;
     }
 
-    void MoveCamera()
+    void UnlockedCameraMovement()
     {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
 
+        int GroundLayerMask = 1 << LayerMask.NameToLayer("Ground");
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundLayerMask))
+        {
+            Vector3 HitPosition = hit.point;
+            displacement = new Vector3(HitPosition.x - transform.position.x, 0, HitPosition.z - transform.position.z);
+            direction = displacement.normalized * Time.deltaTime;
+            transform.position += direction * cameraMoveSpeed;
+        }
     }
 }
