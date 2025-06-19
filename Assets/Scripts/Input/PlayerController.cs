@@ -32,33 +32,25 @@ public class PlayerController : MonoBehaviour
     {
         if (rightClick.WasPressedThisFrame())
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            RaycastHit? hitInfo = MouseLayerDetection();
 
-            int GroundLayerMask = 1 << LayerMask.NameToLayer("Ground");
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundLayerMask))
+            Debug.Log(hitInfo);
+            /*
+            if (hit.collider.gameObject == MovableTerrain)
             {
-                Vector3 HitPosition = hit.point;
-                if (hit.collider.gameObject == MovableTerrain)
+                transform.LookAt(HitPosition);
+                if (isMoving != null)
                 {
-                    transform.LookAt(HitPosition);
-                    if (isMoving != null)
-                    {
-                        StopCoroutine(isMoving);
-                    }
-                    targetPos = Vector3.zero;
-                    displacement = Vector3.zero;
-                    direction = Vector3.zero;
-
-                    targetPos = new Vector3(HitPosition.x, transform.position.y, HitPosition.z);
-                    isMoving = StartCoroutine(MoveToPosition());
+                    StopCoroutine(isMoving);
                 }
+                targetPos = Vector3.zero;
+                displacement = Vector3.zero;
+                direction = Vector3.zero;
+
+                targetPos = new Vector3(HitPosition.x, transform.position.y, HitPosition.z);
+                isMoving = StartCoroutine(MoveToPosition());
             }
-            else
-            {
-                Debug.Log("Unable to Move to this location");
-            }
+            */
         }
     }
 
@@ -72,6 +64,26 @@ public class PlayerController : MonoBehaviour
             transform.position += direction * moveSpeed;
 
             yield return null;
+        }
+    }
+
+    RaycastHit? MouseLayerDetection()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        int DetectableLayers =
+            (1 << LayerMask.NameToLayer("Ground")) |
+            (1 << LayerMask.NameToLayer("Enemy"));
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, DetectableLayers))
+        {
+            return hit;
+        }
+        else
+        {
+            Debug.Log("Unable to Move to this location");
+            return null;
         }
     }
 }
