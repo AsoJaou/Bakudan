@@ -30,9 +30,21 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        RaycastHit? Hit = MouseLayerDetection();
+
+        Debug.Log(Hit);
+        /*
+        if (HitTarget.name == "Ground")
+        {
+            Debug.Log("Ground");
+        }
+        if (HitTarget.name == "CollisionBody")
+        {
+            Debug.Log(HitTarget.transform.parent?.gameObject);
+        }
+        */
         if (rightClick.WasPressedThisFrame())
         {
-            GameObject hitInfo = MouseLayerDetection();
             /*
             if (hit.collider.gameObject == MovableTerrain)
             {
@@ -65,7 +77,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    GameObject MouseLayerDetection()
+    RaycastHit? MouseLayerDetection()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -76,13 +88,12 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, DetectableLayers))
         {
-            GameObject HitObject = hit.collider.gameObject;
-
-            return HitObject;
+            //GameObject HitObject = hit.collider.gameObject;
+            //GameObject HitObject = hit.collider.gameObject.transform.parent?.gameObject;
+            return hit;
         }
         else
         {
-            Debug.Log("Unable to Move to this location");
             return null;
         }
     }
