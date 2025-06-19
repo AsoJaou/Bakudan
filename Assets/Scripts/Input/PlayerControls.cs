@@ -92,7 +92,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""2a922dc4-ca41-4df7-a108-499a78917ee6"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""Right Mouse Button"",
                     ""type"": ""Button"",
                     ""id"": ""cb5a1f91-a6c3-401c-96ea-b12509b42ab2"",
                     ""expectedControlType"": """",
@@ -101,7 +101,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Toggle Camera"",
+                    ""name"": ""Y"",
                     ""type"": ""Button"",
                     ""id"": ""5d4f676f-f555-4ca4-967f-c1d5f7f7c5da"",
                     ""expectedControlType"": """",
@@ -118,7 +118,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Right Mouse Button"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -129,7 +129,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Toggle Camera"",
+                    ""action"": ""Y"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -140,8 +140,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_ToggleCamera = m_Player.FindAction("Toggle Camera", throwIfNotFound: true);
+        m_Player_RightMouseButton = m_Player.FindAction("Right Mouse Button", throwIfNotFound: true);
+        m_Player_Y = m_Player.FindAction("Y", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -222,8 +222,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_ToggleCamera;
+    private readonly InputAction m_Player_RightMouseButton;
+    private readonly InputAction m_Player_Y;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -236,13 +236,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Player/Move".
+        /// Provides access to the underlying input action "Player/RightMouseButton".
         /// </summary>
-        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @RightMouseButton => m_Wrapper.m_Player_RightMouseButton;
         /// <summary>
-        /// Provides access to the underlying input action "Player/ToggleCamera".
+        /// Provides access to the underlying input action "Player/Y".
         /// </summary>
-        public InputAction @ToggleCamera => m_Wrapper.m_Player_ToggleCamera;
+        public InputAction @Y => m_Wrapper.m_Player_Y;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -269,12 +269,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @Move.started += instance.OnMove;
-            @Move.performed += instance.OnMove;
-            @Move.canceled += instance.OnMove;
-            @ToggleCamera.started += instance.OnToggleCamera;
-            @ToggleCamera.performed += instance.OnToggleCamera;
-            @ToggleCamera.canceled += instance.OnToggleCamera;
+            @RightMouseButton.started += instance.OnRightMouseButton;
+            @RightMouseButton.performed += instance.OnRightMouseButton;
+            @RightMouseButton.canceled += instance.OnRightMouseButton;
+            @Y.started += instance.OnY;
+            @Y.performed += instance.OnY;
+            @Y.canceled += instance.OnY;
         }
 
         /// <summary>
@@ -286,12 +286,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="PlayerActions" />
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @Move.started -= instance.OnMove;
-            @Move.performed -= instance.OnMove;
-            @Move.canceled -= instance.OnMove;
-            @ToggleCamera.started -= instance.OnToggleCamera;
-            @ToggleCamera.performed -= instance.OnToggleCamera;
-            @ToggleCamera.canceled -= instance.OnToggleCamera;
+            @RightMouseButton.started -= instance.OnRightMouseButton;
+            @RightMouseButton.performed -= instance.OnRightMouseButton;
+            @RightMouseButton.canceled -= instance.OnRightMouseButton;
+            @Y.started -= instance.OnY;
+            @Y.performed -= instance.OnY;
+            @Y.canceled -= instance.OnY;
         }
 
         /// <summary>
@@ -333,18 +333,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Right Mouse Button" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMove(InputAction.CallbackContext context);
+        void OnRightMouseButton(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Toggle Camera" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Y" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnToggleCamera(InputAction.CallbackContext context);
+        void OnY(InputAction.CallbackContext context);
     }
 }

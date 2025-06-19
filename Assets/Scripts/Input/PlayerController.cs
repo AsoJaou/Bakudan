@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject MovableTerrain;
 
     //Input Actions
-    private InputAction leftClick;
+    private InputAction rightClick;
 
     //Movement Variables
     private Coroutine isMoving;
@@ -25,12 +25,12 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        leftClick = InputSystem.actions.FindAction("Move");
+        rightClick = InputSystem.actions.FindAction("Right Mouse Button");
     }
 
     private void Update()
     {
-        if (leftClick.WasPressedThisFrame())
+        if (rightClick.WasPressedThisFrame())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

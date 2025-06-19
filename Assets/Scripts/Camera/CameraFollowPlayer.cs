@@ -24,7 +24,7 @@ public class CameraFollowPlayer : MonoBehaviour
 
     private void Start()
     {
-        Y = InputSystem.actions.FindAction("Toggle Camera");
+        Y = InputSystem.actions.FindAction("Y");
         cameraDistance = transform.position - Player.transform.position;
         cameraFollow = true;
     }

@@ -6,7 +6,7 @@
             "id": "2a922dc4-ca41-4df7-a108-499a78917ee6",
             "actions": [
                 {
-                    "name": "Move",
+                    "name": "Right Mouse Button",
                     "type": "Button",
                     "id": "cb5a1f91-a6c3-401c-96ea-b12509b42ab2",
                     "expectedControlType": "",
@@ -15,7 +15,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Toggle Camera",
+                    "name": "Y",
                     "type": "Button",
                     "id": "5d4f676f-f555-4ca4-967f-c1d5f7f7c5da",
                     "expectedControlType": "",
@@ -32,7 +32,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Right Mouse Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -43,7 +43,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Toggle Camera",
+                    "action": "Y",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
