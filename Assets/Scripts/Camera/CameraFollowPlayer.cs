@@ -47,7 +47,7 @@ public class CameraFollowPlayer : MonoBehaviour
         {
             if (Space.IsPressed())
             {
-                Debug.Log("Space Pressed");
+                LockedCamera();
             }
             if (IsTouchingEdge())
             {
