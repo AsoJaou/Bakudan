@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.AI;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -30,9 +31,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        RaycastHit? Hit = MouseLayerDetection();
+        RaycastHit? maybeHit = MouseLayerDetection();
 
-        Debug.Log(Hit);
+        if (maybeHit is RaycastHit hit)
+        {
+            Vector3 hitPosition = hit.point;
+        }
+
         /*
         if (HitTarget.name == "Ground")
         {
