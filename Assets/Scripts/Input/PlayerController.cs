@@ -107,4 +107,13 @@ public class PlayerController : MonoBehaviour
             return null;
         }
     }
+
+    void EnemyEnterAttackRange(Collider Enemy)
+    {
+        enemiesInRange.Add(Enemy.gameObject);
+        foreach (var enemy in enemiesInRange)
+        {
+            Debug.Log(enemy);
+        }
+    }
 }

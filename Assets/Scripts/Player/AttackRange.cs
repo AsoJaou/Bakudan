@@ -14,7 +14,7 @@ public class AttackRange : MonoBehaviour
     {
         if (LayerMask.LayerToName(other.gameObject.layer) == "Enemy")
         {
-            Debug.Log(other.gameObject + " has entered the attack range");
+            playerCharacter.SendMessage("EnemyEnterAttackRange", other, SendMessageOptions.DontRequireReceiver);
         }
     }
 }
