@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Public Variables")]
     [SerializeField]
-    private GameObject NormalAttack;
+    //None at the moment
 
     //Input Actions
     private InputAction rightClick;
@@ -35,7 +35,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rightClick = InputSystem.actions.FindAction("Right Mouse Button");
-        NormalAttack = transform.Find("Normal Attack").gameObject;
     }
 
     private void Update()
@@ -68,6 +67,7 @@ public class PlayerController : MonoBehaviour
                     if (enemiesInRange.Contains(hitObject))
                     {
                         StopCoroutine(isMoving);
+                        transform.LookAt(hitObject.transform.position);
                         GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
                         NormalAttackInstance.transform.position = transform.position;
                         NormalAttackInstance.transform.LookAt(hitObject.transform);
