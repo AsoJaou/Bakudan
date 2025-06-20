@@ -20,6 +20,7 @@ public class NormalAttack : MonoBehaviour
     {
         while (Vector3.Distance(transform.position, targetPosition.position) > 0.1f)
         {
+            transform.LookAt(targetPosition.position);
             currentPos = transform.position;
             displacement = targetPosition.position - currentPos;
             direction = displacement.normalized * Time.deltaTime;
