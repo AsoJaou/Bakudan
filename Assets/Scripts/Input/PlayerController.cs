@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     //Input Actions
     private InputAction rightClick;
+    private InputAction leftClick;
     private InputAction aKey;
 
     //Movement Variables
@@ -33,13 +34,9 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         attackRange = transform.Find("Attack Range").gameObject;
-    }
-
-    private void Start()
-    {
         rightClick = InputSystem.actions.FindAction("Right Mouse Button");
+        leftClick = InputSystem.actions.FindAction("Left Mouse Button");
         aKey = InputSystem.actions.FindAction("A");
-
     }
 
     private void Update()
@@ -90,9 +87,13 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Invalid Position");
         }
 
-        if (aKey.WasPerformedThisFrame())
+        if (aKey.IsPressed())
         {
             attackRange.SendMessage("ShowAttackRange");
+            if (leftClick.WasPressedThisFrame())
+            {
+                Debug.Log("Attack");
+            }
         }
         else if (aKey.WasReleasedThisFrame())
         {

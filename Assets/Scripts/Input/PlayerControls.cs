@@ -126,6 +126,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Left Mouse Button"",
+                    ""type"": ""Button"",
+                    ""id"": ""45322f21-c7d3-4572-85de-01ec3d7ae8ab"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""A"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f41e57fa-5ddf-4dd8-b617-c7151f07e3a5"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left Mouse Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -184,6 +204,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Y = m_Player.FindAction("Y", throwIfNotFound: true);
         m_Player_Space = m_Player.FindAction("Space", throwIfNotFound: true);
         m_Player_A = m_Player.FindAction("A", throwIfNotFound: true);
+        m_Player_LeftMouseButton = m_Player.FindAction("Left Mouse Button", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -268,6 +289,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Y;
     private readonly InputAction m_Player_Space;
     private readonly InputAction m_Player_A;
+    private readonly InputAction m_Player_LeftMouseButton;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -295,6 +317,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/A".
         /// </summary>
         public InputAction @A => m_Wrapper.m_Player_A;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/LeftMouseButton".
+        /// </summary>
+        public InputAction @LeftMouseButton => m_Wrapper.m_Player_LeftMouseButton;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -333,6 +359,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @A.started += instance.OnA;
             @A.performed += instance.OnA;
             @A.canceled += instance.OnA;
+            @LeftMouseButton.started += instance.OnLeftMouseButton;
+            @LeftMouseButton.performed += instance.OnLeftMouseButton;
+            @LeftMouseButton.canceled += instance.OnLeftMouseButton;
         }
 
         /// <summary>
@@ -356,6 +385,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @A.started -= instance.OnA;
             @A.performed -= instance.OnA;
             @A.canceled -= instance.OnA;
+            @LeftMouseButton.started -= instance.OnLeftMouseButton;
+            @LeftMouseButton.performed -= instance.OnLeftMouseButton;
+            @LeftMouseButton.canceled -= instance.OnLeftMouseButton;
         }
 
         /// <summary>
@@ -424,5 +456,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnA(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Left Mouse Button" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLeftMouseButton(InputAction.CallbackContext context);
     }
 }
