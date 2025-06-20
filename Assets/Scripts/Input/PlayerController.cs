@@ -60,14 +60,17 @@ public class PlayerController : MonoBehaviour
                     direction = Vector3.zero;
 
                     targetPos = new Vector3(hitPosition.x, transform.position.y, hitPosition.z);
-                    isMoving = StartCoroutine(MoveToPosition());
+                    isMoving = StartCoroutine(MoveToPosition(targetPos));
                 }
                 else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
                 {
-                    if (enemiesInRange.Contains(hitObject))
+                    transform.LookAt(hitObject.transform.position);
+                    if (isMoving != null)
                     {
                         StopCoroutine(isMoving);
-                        transform.LookAt(hitObject.transform.position);
+                    }
+                    if (enemiesInRange.Contains(hitObject))
+                    {
                         GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
                         NormalAttackInstance.transform.position = transform.position;
                         NormalAttackInstance.transform.LookAt(hitObject.transform);
@@ -75,7 +78,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Enemy out of range");
+                        isMoving = StartCoroutine(MoveToAttack(hitObject));
                     }
                 }
             }
@@ -86,12 +89,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator MoveToPosition()
+    IEnumerator MoveToPosition(Vector3 target)
     {
-        while (Vector3.Distance(transform.position, targetPos) > 0.1f)
+        while (Vector3.Distance(transform.position, target) > 0.1f)
         {
             currentPos = transform.position;
-            displacement = targetPos - currentPos;
+            displacement = target - currentPos;
+            direction = displacement.normalized * Time.deltaTime;
+            transform.position += direction * moveSpeed;
+
+            yield return null;
+        }
+    }
+
+    IEnumerator MoveToAttack(GameObject target)
+    {
+        while (!enemiesInRange.Contains(target))
+        {
+            currentPos = transform.position;
+            displacement = target.transform.position - currentPos;
             direction = displacement.normalized * Time.deltaTime;
             transform.position += direction * moveSpeed;
 
