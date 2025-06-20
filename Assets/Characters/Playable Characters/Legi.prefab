@@ -204,7 +204,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  AttackRange: {fileID: 0}
+  rightClick:
+    m_Name: Right Click
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: ce720827-fcf6-4e44-b6fd-a44e38180e32
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!195 &8020829226178078880
 NavMeshAgent:
   m_ObjectHideFlags: 0
