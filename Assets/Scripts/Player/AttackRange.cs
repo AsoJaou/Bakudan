@@ -35,7 +35,7 @@ public class AttackRange : MonoBehaviour
 
     void ShowAttackRange()
     {
-        SetOpacity(100/225f);
+        SetOpacity(60/225f);
     }
     
     void HideAttackRange()
