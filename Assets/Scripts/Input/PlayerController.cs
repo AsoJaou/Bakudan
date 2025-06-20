@@ -64,7 +64,14 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
                 {
-                    Debug.Log("Hit Enemy");
+                    if (enemiesInRange.Contains(hitObject))
+                    {
+                        Debug.Log("Enemy in range");
+                    }
+                    else
+                    {
+                        Debug.Log("Enemy out of range");
+                    }
                 }
             }
         }
