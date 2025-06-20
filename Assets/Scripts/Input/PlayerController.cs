@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Move Settings")]
     [SerializeField]
-    private float moveSpeed = 10f;
+    private float baseMoveSpeed = 3f;
 
     //Input Actions
     private InputAction rightClick;
@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
             currentPos = transform.position;
             displacement = target - currentPos;
             direction = displacement.normalized * Time.deltaTime;
-            transform.position += direction * moveSpeed;
+            transform.position += direction * baseMoveSpeed;
 
             yield return null;
         }
@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
             currentPos = transform.position;
             displacement = target.transform.position - currentPos;
             direction = displacement.normalized * Time.deltaTime;
-            transform.position += direction * moveSpeed;
+            transform.position += direction * baseMoveSpeed;
 
             yield return null;
         }
