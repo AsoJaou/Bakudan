@@ -11,12 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 10f;
 
-    [Header("Public Variables")]
-    [SerializeField]
-    //None at the moment
-
     //Input Actions
     private InputAction rightClick;
+    private InputAction aKey;
 
     //Movement Variables
     private Coroutine isMoving;
@@ -29,12 +26,20 @@ public class PlayerController : MonoBehaviour
     private Vector3 hitPosition;
     private GameObject hitObject;
 
-    //Attack Range Variabels
+    //Attack Range Variables
+    private GameObject attackRange;
     private List<GameObject> enemiesInRange = new List<GameObject>();
+
+    private void Awake()
+    {
+        attackRange = transform.Find("Attack Range").gameObject;
+    }
 
     private void Start()
     {
         rightClick = InputSystem.actions.FindAction("Right Mouse Button");
+        aKey = InputSystem.actions.FindAction("A");
+
     }
 
     private void Update()
@@ -84,6 +89,15 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.Log("Invalid Position");
+        }
+
+        if (aKey.WasPerformedThisFrame())
+        {
+            attackRange.SendMessage("ShowAttackRange");
+        }
+        else if (aKey.WasReleasedThisFrame())
+        {
+            attackRange.SendMessage("HideAttackRange");
         }
     }
 

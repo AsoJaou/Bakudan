@@ -745,6 +745,10 @@ PrefabInstance:
       propertyPath: MovableTerrain
       value: 
       objectReference: {fileID: 10990572}
+    - target: {fileID: 1568245230764247097, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
+      propertyPath: rightClick.m_Name
+      value: Right Click
+      objectReference: {fileID: 0}
     - target: {fileID: 4158319800305964066, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

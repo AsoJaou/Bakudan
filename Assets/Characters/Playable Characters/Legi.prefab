@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 7408083512878793448}
   - component: {fileID: 6647762820224854746}
   - component: {fileID: 6536662958019689263}
-  - component: {fileID: 967764297026768909}
   - component: {fileID: 4859381730792036465}
+  - component: {fileID: 7748686113642563711}
   m_Layer: 0
   m_Name: Attack Range
   m_TagString: Untagged
@@ -120,18 +120,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &967764297026768909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3039847319157568176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d08f2e306de8b246b9e70c22e4de006, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!64 &4859381730792036465
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -154,6 +142,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &7748686113642563711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3039847319157568176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d08f2e306de8b246b9e70c22e4de006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4564017052301443498
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,15 +204,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  rightClick:
-    m_Name: Right Click
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: ce720827-fcf6-4e44-b6fd-a44e38180e32
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
 --- !u!195 &8020829226178078880
 NavMeshAgent:
   m_ObjectHideFlags: 0
