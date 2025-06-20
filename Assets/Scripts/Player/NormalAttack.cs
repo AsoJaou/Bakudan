@@ -11,7 +11,6 @@ public class NormalAttack : MonoBehaviour
 
     void AttackTarget(GameObject target)
     {
-        Debug.Log("TARGET ATTACKED");
         StartCoroutine(MoveToPosition(target.transform));
 
     }
