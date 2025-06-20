@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.AI;
 using System.Collections;
 using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class PlayerController : MonoBehaviour
     //Raycast Variables
     private Vector3 hitPosition;
     private GameObject hitObject;
+
+    //Attack Range Variabels
+    private List<GameObject> enemiesInRange = new List<GameObject>();
 
     private void Start()
     {
