@@ -4,7 +4,7 @@ using UnityEngine;
 public class NormalAttack : MonoBehaviour
 {
     //Normal Attack Variables
-    private float baseAttackSpeed = 10f;
+    private float baseAttackSpeed = 15f;
     private Vector3 currentPos;
     private Vector3 displacement;
     private Vector3 direction;
