@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Public Variables")]
     [SerializeField]
-    public GameObject MovableTerrain;
+    public GameObject AttackRange;
 
     //Input Actions
     private InputAction rightClick;
@@ -44,43 +44,29 @@ public class PlayerController : MonoBehaviour
 
             if (rightClick.WasPressedThisFrame())
             {
-                Debug.Log(hitObject);
-                Debug.Log(hitPosition);
+                if (LayerMask.LayerToName(hitObject.layer) == "Ground")
+                {
+                    transform.LookAt(hitPosition);
+                    if (isMoving != null)
+                    {
+                        StopCoroutine(isMoving);
+                    }
+                    targetPos = Vector3.zero;
+                    displacement = Vector3.zero;
+                    direction = Vector3.zero;
+
+                    targetPos = new Vector3(hitPosition.x, transform.position.y, hitPosition.z);
+                    isMoving = StartCoroutine(MoveToPosition());
+                }
+                else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
+                {
+                    Debug.Log("Hit Enemy");
+                }
             }
         }
         else
         {
             Debug.Log("Invalid Position");
-        }
-
-        /*
-        if (HitTarget.name == "Ground")
-        {
-            Debug.Log("Ground");
-        }
-        if (HitTarget.name == "CollisionBody")
-        {
-            Debug.Log(HitTarget.transform.parent?.gameObject);
-        }
-        */
-        if (rightClick.WasPressedThisFrame())
-        {
-            /*
-            if (hit.collider.gameObject == MovableTerrain)
-            {
-                transform.LookAt(HitPosition);
-                if (isMoving != null)
-                {
-                    StopCoroutine(isMoving);
-                }
-                targetPos = Vector3.zero;
-                displacement = Vector3.zero;
-                direction = Vector3.zero;
-
-                targetPos = new Vector3(HitPosition.x, transform.position.y, HitPosition.z);
-                isMoving = StartCoroutine(MoveToPosition());
-            }
-            */
         }
     }
 
