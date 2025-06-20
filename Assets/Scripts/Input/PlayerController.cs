@@ -69,7 +69,9 @@ public class PlayerController : MonoBehaviour
                     {
                         StopCoroutine(isMoving);
                         GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
-                        NormalAttack.SendMessage("AttackTarget", hitObject, SendMessageOptions.DontRequireReceiver);
+                        NormalAttackInstance.transform.position = transform.position;
+                        NormalAttackInstance.transform.LookAt(hitObject.transform);
+                        NormalAttackInstance.SendMessage("AttackTarget", hitObject, SendMessageOptions.DontRequireReceiver);
                     }
                     else
                     {
