@@ -76,12 +76,11 @@ public class PlayerController : MonoBehaviour
                     }
                     if (enemiesInRange.Contains(hitObject))
                     {
-                        NormalAttack();
+                        NormalAttack(hitObject);
                     }
                     else
                     {
                         isMoving = StartCoroutine(MoveToAttack(hitObject));
-                        NormalAttack();
                     }
                 }
             }
@@ -102,12 +101,12 @@ public class PlayerController : MonoBehaviour
     }
 
     //Methods
-    void NormalAttack()
+    void NormalAttack(GameObject target)
     {
         GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
         NormalAttackInstance.transform.position = transform.position;
-        NormalAttackInstance.transform.LookAt(hitObject.transform);
-        NormalAttackInstance.SendMessage("AttackTarget", hitObject, SendMessageOptions.DontRequireReceiver);
+        NormalAttackInstance.transform.LookAt(target.transform);
+        NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
     }
 
     //Coroutines
@@ -135,6 +134,7 @@ public class PlayerController : MonoBehaviour
 
             yield return null;
         }
+        NormalAttack(target);
     }
 
     //Raycast
