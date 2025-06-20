@@ -98,8 +98,6 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, DetectableLayers))
         {
-            //GameObject HitObject = hit.collider.gameObject;
-            //GameObject HitObject = hit.collider.gameObject.transform.parent?.gameObject;
             return hit;
         }
         else
@@ -110,10 +108,17 @@ public class PlayerController : MonoBehaviour
 
     void EnemyEnterAttackRange(Collider Enemy)
     {
-        enemiesInRange.Add(Enemy.gameObject);
-        foreach (var enemy in enemiesInRange)
+        if (!enemiesInRange.Contains(Enemy.gameObject))
         {
-            Debug.Log(enemy);
+            enemiesInRange.Add(Enemy.gameObject);
+        }
+    }
+
+    void EnemyExitAttackRange(Collider Enemy)
+    {
+        if (enemiesInRange.Contains(Enemy.gameObject))
+        {
+            enemiesInRange.Remove(Enemy.gameObject);
         }
     }
 }

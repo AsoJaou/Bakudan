@@ -17,4 +17,12 @@ public class AttackRange : MonoBehaviour
             playerCharacter.SendMessage("EnemyEnterAttackRange", other, SendMessageOptions.DontRequireReceiver);
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Enemy")
+        {
+            playerCharacter.SendMessage("EnemyExitAttackRange", other, SendMessageOptions.DontRequireReceiver);
+        }
+    }
 }
