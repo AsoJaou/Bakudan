@@ -24,6 +24,10 @@ public class PlayerController : MonoBehaviour
     private Vector3 displacement;
     private Vector3 direction;
 
+    //Raycast Variables
+    private Vector3 hitPosition;
+    private GameObject hitObject;
+
     private void Start()
     {
         rightClick = InputSystem.actions.FindAction("Right Mouse Button");
@@ -35,7 +39,18 @@ public class PlayerController : MonoBehaviour
 
         if (maybeHit is RaycastHit hit)
         {
-            Vector3 hitPosition = hit.point;
+            hitPosition = hit.point;
+            hitObject = hit.collider.gameObject;
+
+            if (rightClick.WasPressedThisFrame())
+            {
+                Debug.Log(hitObject);
+                Debug.Log(hitPosition);
+            }
+        }
+        else
+        {
+            Debug.Log("Invalid Position");
         }
 
         /*
