@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Public Variables")]
     [SerializeField]
-    public GameObject AttackRange;
+    private GameObject NormalAttack;
 
     //Input Actions
     private InputAction rightClick;
@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rightClick = InputSystem.actions.FindAction("Right Mouse Button");
+        NormalAttack = transform.Find("Normal Attack").gameObject;
     }
 
     private void Update()
@@ -66,7 +67,9 @@ public class PlayerController : MonoBehaviour
                 {
                     if (enemiesInRange.Contains(hitObject))
                     {
-                        Debug.Log("Enemy in range");
+                        StopCoroutine(isMoving);
+                        GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
+                        NormalAttack.SendMessage("AttackTarget", hitObject, SendMessageOptions.DontRequireReceiver);
                     }
                     else
                     {

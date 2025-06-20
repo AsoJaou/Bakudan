@@ -5,7 +5,7 @@ public class AttackRange : MonoBehaviour
     //Attack Range Variables
     private GameObject playerCharacter;
 
-    private void Awake()
+    private void Start()
     {
         playerCharacter = transform.parent.gameObject;
     }
