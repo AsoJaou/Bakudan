@@ -63,11 +63,6 @@ public class PlayerController : MonoBehaviour
             }
             else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
             {
-                transform.LookAt(hitObject.transform.position);
-                if (isMoving != null)
-                {
-                    StopCoroutine(isMoving);
-                }
                 if (enemiesInRange.Contains(hitObject))
                 {
                     NormalAttack(hitObject);
@@ -104,6 +99,12 @@ public class PlayerController : MonoBehaviour
     //Methods
     void NormalAttack(GameObject target)
     {
+        transform.LookAt(target.transform.position);
+        if (isMoving != null)
+        {
+            StopCoroutine(isMoving);
+        }
+
         GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
         NormalAttackInstance.transform.position = transform.position;
         NormalAttackInstance.transform.LookAt(target.transform);
