@@ -20,10 +20,13 @@ public class CameraFollowPlayer : MonoBehaviour
     private float edgeThreshold = 5f;
     private float cameraMoveSpeed = 40f;
     private Vector3 mousePosition;
-    private Vector3 displacement;
-    private Vector3 direction;
+    private Vector3 cameraPosition;
+    private bool isTouchingLeftEdge;
+    private bool isTouchingRightEdge;
+    private bool isTouchingTopEdge;
+    private bool isTouchingBottomEdge;
 
-    private void Start()
+    private void Awake()
     {
         Y = InputSystem.actions.FindAction("Y");
         Space = InputSystem.actions.FindAction("Space");
@@ -64,27 +67,39 @@ public class CameraFollowPlayer : MonoBehaviour
     bool IsTouchingEdge()
     {
         mousePosition = Input.mousePosition;
-        bool isTouchingLeftEdge = mousePosition.x <= edgeThreshold;
-        bool isTouchingRightEdge = mousePosition.x >= Screen.width - edgeThreshold;
-        bool isTouchingTopEdge = mousePosition.y >= Screen.height - edgeThreshold;
-        bool isTouchingBottomEdge = mousePosition.y <= edgeThreshold;
+        isTouchingLeftEdge = mousePosition.x <= edgeThreshold;
+        isTouchingRightEdge = mousePosition.x >= Screen.width - edgeThreshold;
+        isTouchingTopEdge = mousePosition.y >= Screen.height - edgeThreshold;
+        isTouchingBottomEdge = mousePosition.y <= edgeThreshold;
 
         return isTouchingBottomEdge || isTouchingLeftEdge || isTouchingRightEdge || isTouchingTopEdge;
     }
 
     void UnlockedCameraMovement()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        int GroundLayerMask = 1 << LayerMask.NameToLayer("Ground");
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundLayerMask))
+        if (isTouchingLeftEdge)
         {
-            Vector3 HitPosition = hit.point;
-            displacement = new Vector3(HitPosition.x - transform.position.x, 0, HitPosition.z - transform.position.z);
-            direction = displacement.normalized * Time.deltaTime;
-            transform.position += direction * cameraMoveSpeed;
+            cameraPosition = transform.position;
+            cameraPosition.x -= cameraMoveSpeed * Time.deltaTime;
+            transform.position = cameraPosition;
+        }
+        if (isTouchingRightEdge)
+        {
+            cameraPosition = transform.position;
+            cameraPosition.x += cameraMoveSpeed * Time.deltaTime;
+            transform.position = cameraPosition;
+        }
+        if (isTouchingTopEdge)
+        {
+            cameraPosition = transform.position;
+            cameraPosition.z += cameraMoveSpeed * Time.deltaTime;
+            transform.position = cameraPosition;
+        }
+        if (isTouchingBottomEdge)
+        {
+            cameraPosition = transform.position;
+            cameraPosition.z -= cameraMoveSpeed * Time.deltaTime;
+            transform.position = cameraPosition;
         }
     }
 }
