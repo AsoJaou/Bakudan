@@ -92,7 +92,14 @@ public class PlayerController : MonoBehaviour
             attackRange.SendMessage("ShowAttackRange");
             if (leftClick.WasPressedThisFrame())
             {
-                Debug.Log("Attack");
+                if (enemiesInRange.Count > 0f)
+                {
+                    Debug.Log("Enemy Hit");
+                }
+                else
+                {
+                    Debug.Log("Moving to position");
+                }
             }
         }
         else if (aKey.WasReleasedThisFrame())
