@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     //Attack Range Variables
     private GameObject attackRange;
+    private GameObject closestEnemy;
+    private float closestEnemyDistance;
     private List<GameObject> enemiesInRange = new List<GameObject>();
 
     private void Awake()
@@ -84,7 +86,8 @@ public class PlayerController : MonoBehaviour
             {
                 if (enemiesInRange.Count > 0f)
                 {
-                    Debug.Log("Enemy Hit");
+                    FindClosestEnemy();
+                    NormalAttack(closestEnemy);
                 }
                 else
                 {
@@ -168,6 +171,24 @@ public class PlayerController : MonoBehaviour
         {
             return null;
         }
+    }
+
+    //Find Closest Enemy
+    GameObject FindClosestEnemy ()
+    {
+        closestEnemyDistance = Mathf.Infinity;
+        foreach (GameObject enemy in enemiesInRange)
+        {
+            float distance = Vector3.Distance(hitPosition, enemy.transform.position);
+
+            if (distance < closestEnemyDistance)
+            {
+                closestEnemyDistance = distance;
+                closestEnemy = enemy;
+            }
+        }
+
+        return closestEnemy;
     }
 
     //Message Methods
