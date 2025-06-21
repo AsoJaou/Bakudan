@@ -18,7 +18,7 @@ public class CameraFollowPlayer : MonoBehaviour
 
     //Unlocked Camera
     private float edgeThreshold = 5f;
-    private float cameraMoveSpeed = 40f;
+    private float cameraMoveSpeed = 60f;
     private Vector3 mousePosition;
     private Vector3 cameraPosition;
     private bool isTouchingLeftEdge;
