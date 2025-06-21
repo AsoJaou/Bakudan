@@ -47,44 +47,34 @@ public class PlayerController : MonoBehaviour
         {
             hitPosition = hit.point;
             hitObject = hit.collider.gameObject;
-
-            if (rightClick.WasPressedThisFrame())
-            {
-                if (LayerMask.LayerToName(hitObject.layer) == "Ground")
-                {
-                    transform.LookAt(hitPosition);
-                    if (isMoving != null)
-                    {
-                        StopCoroutine(isMoving);
-                    }
-                    targetPos = Vector3.zero;
-                    displacement = Vector3.zero;
-                    direction = Vector3.zero;
-
-                    targetPos = new Vector3(hitPosition.x, transform.position.y, hitPosition.z);
-                    isMoving = StartCoroutine(MoveToPosition(targetPos));
-                }
-                else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
-                {
-                    transform.LookAt(hitObject.transform.position);
-                    if (isMoving != null)
-                    {
-                        StopCoroutine(isMoving);
-                    }
-                    if (enemiesInRange.Contains(hitObject))
-                    {
-                        NormalAttack(hitObject);
-                    }
-                    else
-                    {
-                        isMoving = StartCoroutine(MoveToAttack(hitObject));
-                    }
-                }
-            }
         }
         else
         {
             Debug.Log("Invalid Position");
+        }
+
+        if (rightClick.WasPressedThisFrame())
+        {
+            if (LayerMask.LayerToName(hitObject.layer) == "Ground")
+            {
+                Move();
+            }
+            else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
+            {
+                transform.LookAt(hitObject.transform.position);
+                if (isMoving != null)
+                {
+                    StopCoroutine(isMoving);
+                }
+                if (enemiesInRange.Contains(hitObject))
+                {
+                    NormalAttack(hitObject);
+                }
+                else
+                {
+                    isMoving = StartCoroutine(MoveToAttack(hitObject));
+                }
+            }
         }
 
         if (aKey.IsPressed())
@@ -98,7 +88,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Moving to position");
+                    Move();
                 }
             }
         }
@@ -115,6 +105,21 @@ public class PlayerController : MonoBehaviour
         NormalAttackInstance.transform.position = transform.position;
         NormalAttackInstance.transform.LookAt(target.transform);
         NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
+    }
+
+    void Move ()
+    {
+        if (isMoving != null)
+        {
+            StopCoroutine(isMoving);
+        }
+        targetPos = Vector3.zero;
+        displacement = Vector3.zero;
+        direction = Vector3.zero;
+
+        targetPos = new Vector3(hitPosition.x, transform.position.y, hitPosition.z);
+        transform.LookAt(targetPos);
+        isMoving = StartCoroutine(MoveToPosition(targetPos));
     }
 
     //Coroutines
