@@ -50,16 +50,12 @@ public class PlayerController : MonoBehaviour
             hitPosition = hit.point;
             hitObject = hit.collider.gameObject;
         }
-        else
-        {
-            Debug.Log("Invalid Position");
-        }
 
         if (rightClick.WasPressedThisFrame())
         {
             if (LayerMask.LayerToName(hitObject.layer) == "Ground")
             {
-                Move();
+                MoveToPosition();
             }
             else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
             {
@@ -69,7 +65,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    isMoving = StartCoroutine(MoveToAttack(hitObject));
+                    MoveToAttack(hitObject);
                 }
             }
         }
@@ -84,9 +80,13 @@ public class PlayerController : MonoBehaviour
                     FindClosestEnemy();
                     NormalAttack(closestEnemy);
                 }
+                else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
+                {
+                    MoveToAttack(hitObject);
+                }
                 else
                 {
-                    Move();
+                    MoveToPosition();
                 }
             }
         }
@@ -99,19 +99,31 @@ public class PlayerController : MonoBehaviour
     //Methods
     void NormalAttack(GameObject target)
     {
+        StopMoving();
         transform.LookAt(target.transform.position);
-        if (isMoving != null)
-        {
-            StopCoroutine(isMoving);
-        }
-
         GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
         NormalAttackInstance.transform.position = transform.position;
         NormalAttackInstance.transform.LookAt(target.transform);
         NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
     }
 
-    void Move ()
+    void MoveToPosition()
+    {
+        StopMoving();
+
+        targetPos = new Vector3(hitPosition.x, transform.position.y, hitPosition.z);
+        isMoving = StartCoroutine(MoveToPositionCorutine(targetPos));
+    }
+
+    void MoveToAttack(GameObject target)
+    {
+        StopMoving();
+
+        targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+        isMoving = StartCoroutine(MoveToAttackCorutine(target, targetPos));
+    }
+
+    void StopMoving()
     {
         if (isMoving != null)
         {
@@ -120,19 +132,16 @@ public class PlayerController : MonoBehaviour
         targetPos = Vector3.zero;
         displacement = Vector3.zero;
         direction = Vector3.zero;
-
-        targetPos = new Vector3(hitPosition.x, transform.position.y, hitPosition.z);
-        transform.LookAt(targetPos);
-        isMoving = StartCoroutine(MoveToPosition(targetPos));
     }
 
     //Coroutines
-    IEnumerator MoveToPosition(Vector3 target)
+    IEnumerator MoveToPositionCorutine(Vector3 targetPos)
     {
-        while (Vector3.Distance(transform.position, target) > 0.1f)
+        transform.LookAt(targetPos);
+        while (Vector3.Distance(transform.position, targetPos) > 0.1f)
         {
             currentPos = transform.position;
-            displacement = target - currentPos;
+            displacement = targetPos - currentPos;
             direction = displacement.normalized * Time.deltaTime;
             transform.position += direction * baseMoveSpeed * 0.1f;
 
@@ -140,10 +149,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator MoveToAttack(GameObject target)
+    IEnumerator MoveToAttackCorutine(GameObject target, Vector3 targetPos)
     {
         while (!enemiesInRange.Contains(target))
         {
+            transform.LookAt(targetPos);
             currentPos = transform.position;
             displacement = target.transform.position - currentPos;
             direction = displacement.normalized * Time.deltaTime;
