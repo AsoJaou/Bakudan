@@ -43,6 +43,13 @@ public class NavMeshPlayerController : MonoBehaviour
         aKey = InputSystem.actions.FindAction("A");
     }
 
+    private void Start()
+    {
+        agent.acceleration = 9999f;
+        agent.angularSpeed = 0f;
+        agent.updateRotation = false;
+    }
+
     private void Update()
     {
         RaycastHit? maybeHit = MouseLayerDetection();
@@ -57,7 +64,7 @@ public class NavMeshPlayerController : MonoBehaviour
         {
             if (LayerMask.LayerToName(hitObject.layer) == "Ground")
             {
-                MoveToPosition();
+                MoveToPosition(hitPosition);
             }
             else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
             {
@@ -88,13 +95,25 @@ public class NavMeshPlayerController : MonoBehaviour
                 }
                 else
                 {
-                    MoveToPosition();
+                    MoveToPosition(hitPosition);
                 }
             }
         }
         else if (aKey.WasReleasedThisFrame())
         {
             attackRange.SendMessage("HideAttackRange");
+        }
+
+        // Nav Agent Movement
+        if (agent.hasPath)
+        {
+            Vector3 moveDir = agent.desiredVelocity.normalized;
+            agent.velocity = moveDir * baseMoveSpeed * 0.1f;
+
+            if (moveDir !=  Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(moveDir);
+            }
         }
     }
 
@@ -109,11 +128,10 @@ public class NavMeshPlayerController : MonoBehaviour
         NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
     }
 
-    void MoveToPosition()
+    void MoveToPosition(Vector3 target)
     {
         StopMoving();
-        transform.LookAt(hitPosition);
-        agent.SetDestination(hitPosition);
+        agent.SetDestination(target);
     }
 
     void MoveToAttack(GameObject target)
@@ -131,33 +149,14 @@ public class NavMeshPlayerController : MonoBehaviour
         agent.Warp(transform.position);
     }
 
-    //Coroutines
-    IEnumerator MoveToPositionCorutine(Vector3 targetPos)
-    {
-        transform.LookAt(targetPos);
-        while (Vector3.Distance(transform.position, targetPos) > 0.1f)
-        {
-            currentPos = transform.position;
-            displacement = targetPos - currentPos;
-            direction = displacement.normalized * Time.deltaTime;
-            transform.position += direction * baseMoveSpeed * 0.1f;
-
-            yield return null;
-        }
-    }
-
     IEnumerator MoveToAttackCorutine(GameObject target, Vector3 targetPos)
     {
+        agent.SetDestination(targetPos);
         while (!enemiesInRange.Contains(target))
         {
-            transform.LookAt(targetPos);
-            currentPos = transform.position;
-            displacement = target.transform.position - currentPos;
-            direction = displacement.normalized * Time.deltaTime;
-            transform.position += direction * baseMoveSpeed * 0.1f;
-
             yield return null;
         }
+        StopMoving();
         NormalAttack(target);
     }
 
