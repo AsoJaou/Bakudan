@@ -4,9 +4,9 @@ using UnityEngine.InputSystem;
 
 public class CameraFollowPlayer : MonoBehaviour
 {
-    [Header("Public Variables")]
+    [Header("Private Variables")]
     [SerializeField]
-    public Transform Player;
+    private Transform Player;
 
     //Input Actions
     private InputAction Y;
@@ -28,6 +28,7 @@ public class CameraFollowPlayer : MonoBehaviour
 
     private void Awake()
     {
+        Player = GameObject.FindGameObjectWithTag("Player").transform;
         Y = InputSystem.actions.FindAction("Y");
         Space = InputSystem.actions.FindAction("Space");
         cameraDistance = transform.position - Player.transform.position;
