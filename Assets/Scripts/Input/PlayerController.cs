@@ -7,8 +7,9 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Player Stats")]
-    public float baseMoveSpeed = 67f;
+    [Header("Move Settings")]
+    [SerializeField]
+    private float baseMoveSpeed = 67f;
 
     //Input Actions
     private InputAction rightClick;
