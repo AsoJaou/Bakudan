@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Move Settings")]
     [SerializeField]
-    private float baseMoveSpeed = 67f;
+    private float baseMoveSpeed;
 
     //Input Actions
     private InputAction rightClick;
