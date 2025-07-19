@@ -4,41 +4,26 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance { get; private set; }
 
-    public float Speed = 67f;
-    public float NormalAttackSpeed = 15f;
-    public float NormalAttackDamage;
-    public float Health = 600f;
+    [Header("Base Stats")]
+    [SerializeField] private float baseSpeed = 67f;
+    [SerializeField] private float baseAttackSpeed = 15f;
+    [SerializeField] private float baseAttackDamage = 0f;
+    [SerializeField] private float baseHealth = 600f;
+
+    public float BaseSpeed => baseSpeed;
+    public float BaseAttackSpeed => baseAttackSpeed;
+    public float BaseAttackDamage => baseAttackDamage;
+    public float BaseHealth => baseHealth;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-    }
 
-    public void BonusSpeed(float speed)
-    {
-        Speed += speed;
-    }
-
-    public void BonusAttackSpeed(float normalAttackSpeed)
-    {
-        NormalAttackSpeed += normalAttackSpeed;
-    }
-
-    public void BonusNormalAttackDamage(float normalAttackDamage)
-    {
-        NormalAttackDamage += normalAttackDamage;
-    }
-
-    public void BonusHealth(float health)
-    {
-        Health += health;
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 }
