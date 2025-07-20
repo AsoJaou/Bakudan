@@ -24,10 +24,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 direction;
     private NavMeshAgent agent;
 
-    //Raycast Variables
-    private Vector3 hitPosition;
-    private GameObject hitObject;
-
     //Attack Range Variables
     private GameObject attackRange;
     private GameObject closestEnemy;
@@ -52,59 +48,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        RaycastHit? maybeHit = MouseLayerDetection();
-
-        if (maybeHit is RaycastHit hit)
-        {
-            hitPosition = hit.point;
-            hitObject = hit.collider.gameObject;
-        }
-
-        if (rightClick.WasPressedThisFrame())
-        {
-            if (LayerMask.LayerToName(hitObject.layer) == "Ground")
-            {
-                Debug.Log("Right Clicked on Ground");
-                MoveToPosition(hitPosition);
-            }
-            else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
-            {
-                if (enemiesInRange.Contains(hitObject))
-                {
-                    NormalAttack(hitObject);
-                }
-                else
-                {
-                    MoveToAttack(hitObject);
-                }
-            }
-        }
-
-        if (aKey.IsPressed())
-        {
-            attackRange.SendMessage("ShowAttackRange");
-            if (leftClick.WasPressedThisFrame())
-            {
-                if (enemiesInRange.Count > 0f)
-                {
-                    FindClosestEnemy();
-                    NormalAttack(closestEnemy);
-                }
-                else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
-                {
-                    MoveToAttack(hitObject);
-                }
-                else
-                {
-                    MoveToPosition(hitPosition);
-                }
-            }
-        }
-        else if (aKey.WasReleasedThisFrame())
-        {
-            attackRange.SendMessage("HideAttackRange");
-        }
-
         // Nav Agent Movement
         if (agent.hasPath)
         {
@@ -119,6 +62,18 @@ public class PlayerController : MonoBehaviour
     }
 
     //Methods
+    void EnemyCheck(GameObject hitObject)
+    {
+        if (enemiesInRange.Contains(hitObject))
+        {
+            NormalAttack(hitObject);
+        }
+        else
+        {
+            MoveToAttack(hitObject);
+        }
+    }
+
     void NormalAttack(GameObject target)
     {
         StopMoving();
@@ -182,6 +137,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //Find Closest Enemy
+    /*
     GameObject FindClosestEnemy()
     {
         closestEnemyDistance = Mathf.Infinity;
@@ -198,6 +154,7 @@ public class PlayerController : MonoBehaviour
 
         return closestEnemy;
     }
+    */
 
     //Message Methods
     void EnemyEnterAttackRange(Collider Enemy)

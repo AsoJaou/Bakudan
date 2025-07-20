@@ -1,23 +1,24 @@
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
-public class CircleRenderer : MonoBehaviour
+public class NewAttackRange : MonoBehaviour
 {
     private float radius = 5f;
     private int segments = 100;
-    private GameObject AttackRange;
 
     private LineRenderer lineRenderer;
 
-    void Start()
+    private void Awake()
     {
-        AttackRange = GameObject.Find("Attack Range");
-        AttackRange.SetActive(false);
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
         lineRenderer.loop = true;
         lineRenderer.widthMultiplier = 0.3f;
+        lineRenderer.enabled = false;
+    }
 
+    void Start()
+    {
         DrawCircle();
     }
 
@@ -41,5 +42,15 @@ public class CircleRenderer : MonoBehaviour
     {
         radius = newRadius;
         DrawCircle();
+    }
+
+    public void ShowAttackRange()
+    {
+        lineRenderer.enabled = true;
+    }
+
+    public void HideAttackRange()
+    {
+        lineRenderer.enabled = false;
     }
 }
