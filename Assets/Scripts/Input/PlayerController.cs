@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 targetPos;
     private Vector3 displacement;
     private Vector3 direction;
+    private NavMeshAgent agent;
 
     //Raycast Variables
     private Vector3 hitPosition;
@@ -35,10 +36,18 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        agent = GetComponent<NavMeshAgent>();
         attackRange = transform.Find("Attack Range").gameObject;
         rightClick = InputSystem.actions.FindAction("Right Mouse Button");
         leftClick = InputSystem.actions.FindAction("Left Mouse Button");
         aKey = InputSystem.actions.FindAction("A");
+    }
+
+    private void Start()
+    {
+        agent.acceleration = 9999f;
+        agent.angularSpeed = 0f;
+        agent.updateRotation = false;
     }
 
     private void Update()
@@ -55,7 +64,7 @@ public class PlayerController : MonoBehaviour
         {
             if (LayerMask.LayerToName(hitObject.layer) == "Ground")
             {
-                MoveToPosition();
+                MoveToPosition(hitPosition);
             }
             else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
             {
@@ -86,13 +95,25 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    MoveToPosition();
+                    MoveToPosition(hitPosition);
                 }
             }
         }
         else if (aKey.WasReleasedThisFrame())
         {
             attackRange.SendMessage("HideAttackRange");
+        }
+
+        // Nav Agent Movement
+        if (agent.hasPath)
+        {
+            Vector3 moveDir = agent.desiredVelocity.normalized;
+            agent.velocity = moveDir * baseMoveSpeed * 0.1f;
+
+            if (moveDir !=  Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(moveDir);
+            }
         }
     }
 
@@ -107,12 +128,10 @@ public class PlayerController : MonoBehaviour
         NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
     }
 
-    void MoveToPosition()
+    void MoveToPosition(Vector3 target)
     {
         StopMoving();
-
-        targetPos = new Vector3(hitPosition.x, transform.position.y, hitPosition.z);
-        isMoving = StartCoroutine(MoveToPositionCorutine(targetPos));
+        agent.SetDestination(target);
     }
 
     void MoveToAttack(GameObject target)
@@ -125,42 +144,19 @@ public class PlayerController : MonoBehaviour
 
     void StopMoving()
     {
-        if (isMoving != null)
-        {
-            StopCoroutine(isMoving);
-        }
-        targetPos = Vector3.zero;
-        displacement = Vector3.zero;
-        direction = Vector3.zero;
-    }
-
-    //Coroutines
-    IEnumerator MoveToPositionCorutine(Vector3 targetPos)
-    {
-        transform.LookAt(targetPos);
-        while (Vector3.Distance(transform.position, targetPos) > 0.1f)
-        {
-            currentPos = transform.position;
-            displacement = targetPos - currentPos;
-            direction = displacement.normalized * Time.deltaTime;
-            transform.position += direction * baseMoveSpeed * 0.1f;
-
-            yield return null;
-        }
+        agent.ResetPath();
+        agent.velocity = Vector3.zero;
+        agent.Warp(transform.position);
     }
 
     IEnumerator MoveToAttackCorutine(GameObject target, Vector3 targetPos)
     {
+        agent.SetDestination(targetPos);
         while (!enemiesInRange.Contains(target))
         {
-            transform.LookAt(targetPos);
-            currentPos = transform.position;
-            displacement = target.transform.position - currentPos;
-            direction = displacement.normalized * Time.deltaTime;
-            transform.position += direction * baseMoveSpeed * 0.1f;
-
             yield return null;
         }
+        StopMoving();
         NormalAttack(target);
     }
 
@@ -185,7 +181,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //Find Closest Enemy
-    GameObject FindClosestEnemy ()
+    GameObject FindClosestEnemy()
     {
         closestEnemyDistance = Mathf.Infinity;
         foreach (GameObject enemy in enemiesInRange)
