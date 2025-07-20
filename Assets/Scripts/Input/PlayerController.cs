@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
         {
             if (LayerMask.LayerToName(hitObject.layer) == "Ground")
             {
+                Debug.Log("Right Clicked on Ground");
                 MoveToPosition(hitPosition);
             }
             else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
