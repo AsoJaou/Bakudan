@@ -1,52 +1,61 @@
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(SphereCollider))]
 public class AttackRange : MonoBehaviour
 {
-    //Attack Range Variables
-    private Renderer objectRenderer;
-    private GameObject playerCharacter;
+    private float attackRange;
+    private int segments = 100;
+
+    private LineRenderer lineRenderer;
+    private SphereCollider attackRangeCollider;
 
     private void Awake()
     {
-        objectRenderer = GetComponent<Renderer>();
+        attackRangeCollider = GetComponent<SphereCollider>();
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.useWorldSpace = false;
+        lineRenderer.loop = true;
+        lineRenderer.widthMultiplier = 0.3f;
+        lineRenderer.enabled = false;
     }
 
-    private void Start()
+    private void Update()
     {
-        playerCharacter = transform.parent.gameObject;
-        SetOpacity(0f);
+        attackRange = PlayerStats.Instance.AttackRange;
+        attackRangeCollider.radius = attackRange;
+        DrawCircle();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void DrawCircle()
     {
-        if (LayerMask.LayerToName(other.gameObject.layer) == "Enemy")
+        lineRenderer.positionCount = segments;
+
+        float angleStep = 360f / segments;
+
+        for (int i = 0; i < segments; i++)
         {
-            playerCharacter.SendMessage("EnemyEnterAttackRange", other, SendMessageOptions.DontRequireReceiver);
+            float angle = Mathf.Deg2Rad * i * angleStep;
+            float x = Mathf.Cos(angle) * attackRange;
+            float z = Mathf.Sin(angle) * attackRange;
+            lineRenderer.SetPosition(i, new Vector3(x, 0, z));
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void SetRadius(float newRadius)
     {
-        if (LayerMask.LayerToName(other.gameObject.layer) == "Enemy")
-        {
-            playerCharacter.SendMessage("EnemyExitAttackRange", other, SendMessageOptions.DontRequireReceiver);
-        }
+        attackRange = newRadius;
+        attackRangeCollider.radius = newRadius;
+        DrawCircle();
     }
 
-    void ShowAttackRange()
+    public void ShowAttackRange()
     {
-        SetOpacity(60/225f);
-    }
-    
-    void HideAttackRange()
-    {
-        SetOpacity(0f);
+        lineRenderer.enabled = true;
     }
 
-    void SetOpacity(float alpha)
+    public void HideAttackRange()
     {
-        Color color = objectRenderer.material.color;
-        color.a = alpha;
-        objectRenderer.material.color = color;
+        lineRenderer.enabled = false;
     }
 }

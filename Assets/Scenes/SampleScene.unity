@@ -686,6 +686,7 @@ GameObject:
   - component: {fileID: 1260096034}
   - component: {fileID: 1260096036}
   - component: {fileID: 1260096035}
+  - component: {fileID: 1260096037}
   m_Layer: 0
   m_Name: Attack Range
   m_TagString: Untagged
@@ -827,6 +828,27 @@ LineRenderer:
   m_UseWorldSpace: 0
   m_Loop: 1
   m_ApplyActiveColorSpace: 1
+--- !u!135 &1260096037
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260096033}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1397419963
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +897,7 @@ MonoBehaviour:
   baseAttackSpeed: 15
   baseAttackDamage: 0
   baseHealth: 600
+  baseAttackRange: 7
 --- !u!1 &1628077802
 GameObject:
   m_ObjectHideFlags: 0
