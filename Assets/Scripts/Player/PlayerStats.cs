@@ -9,7 +9,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float baseAttackSpeed = 15f;
     [SerializeField] private float baseAttackDamage = 0f;
     [SerializeField] private float baseHealth = 600f;
-    [SerializeField] private float baseAttackRange = 7f;
+    [SerializeField] private float baseAttackRange = 70f;
 
     public float Speed => baseSpeed;
     public float AttackSpeed => baseAttackSpeed;

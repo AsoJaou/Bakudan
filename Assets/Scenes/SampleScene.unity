@@ -531,6 +531,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1628077803}
     m_Modifications:
+    - target: {fileID: 3039847319157568176, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4158319800305964066, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -576,7 +580,8 @@ PrefabInstance:
       value: Legi
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3039847319157568176, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
@@ -685,8 +690,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1260096034}
   - component: {fileID: 1260096036}
-  - component: {fileID: 1260096035}
   - component: {fileID: 1260096037}
+  - component: {fileID: 1260096038}
   m_Layer: 0
   m_Name: Attack Range
   m_TagString: Untagged
@@ -709,18 +714,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1628077803}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1260096035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1260096033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 932a62542cd595347bffd01077900d34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!120 &1260096036
 LineRenderer:
   serializedVersion: 2
@@ -843,12 +836,27 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1260096038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260096033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 932a62542cd595347bffd01077900d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1397419963
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,7 +905,7 @@ MonoBehaviour:
   baseAttackSpeed: 15
   baseAttackDamage: 0
   baseHealth: 600
-  baseAttackRange: 7
+  baseAttackRange: 70
 --- !u!1 &1628077802
 GameObject:
   m_ObjectHideFlags: 0

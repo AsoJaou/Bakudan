@@ -1,14 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(SphereCollider))]
 public class AttackRange : MonoBehaviour
 {
-    private float attackRange;
     private int segments = 100;
 
     private LineRenderer lineRenderer;
     private SphereCollider attackRangeCollider;
+
+    [SerializeField] private LayerMask enemyLayerMask;
+    private List<GameObject> enemiesInRange = new List<GameObject>();
 
     private void Awake()
     {
@@ -22,12 +25,10 @@ public class AttackRange : MonoBehaviour
 
     private void Update()
     {
-        attackRange = PlayerStats.Instance.AttackRange;
-        attackRangeCollider.radius = attackRange;
-        DrawCircle();
+        SetRadius(PlayerStats.Instance.AttackRange * 0.1f);
     }
 
-    public void DrawCircle()
+    public void SetRadius(float attackRange)
     {
         lineRenderer.positionCount = segments;
 
@@ -40,13 +41,8 @@ public class AttackRange : MonoBehaviour
             float z = Mathf.Sin(angle) * attackRange;
             lineRenderer.SetPosition(i, new Vector3(x, 0, z));
         }
-    }
 
-    public void SetRadius(float newRadius)
-    {
-        attackRange = newRadius;
-        attackRangeCollider.radius = newRadius;
-        DrawCircle();
+        attackRangeCollider.radius = attackRange;
     }
 
     public void ShowAttackRange()
@@ -57,5 +53,25 @@ public class AttackRange : MonoBehaviour
     public void HideAttackRange()
     {
         lineRenderer.enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider Enemy)
+    {
+        if (Enemy.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            if (!enemiesInRange.Contains(Enemy.gameObject))
+            {
+
+                enemiesInRange.Add(Enemy.gameObject.transform.parent.gameObject);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider Enemy)
+    {
+        if (enemiesInRange.Contains(Enemy.gameObject.transform.parent.gameObject))
+        {
+            enemiesInRange.Remove(Enemy.gameObject.transform.parent.gameObject);
+        }
     }
 }
