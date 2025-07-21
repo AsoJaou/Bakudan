@@ -53,6 +53,7 @@ public class InputManager : MonoBehaviour
         if (aKey.IsPressed())
         {
             attackRange.SendMessage("ShowAttackRange");
+            /*
             if (leftClick.WasPressedThisFrame())
             {
                 if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
@@ -64,6 +65,7 @@ public class InputManager : MonoBehaviour
                     player.SendMessage("MoveToPosition", hitPosition);
                 }
             }
+            */
         }
         else if (aKey.WasReleasedThisFrame())
         {

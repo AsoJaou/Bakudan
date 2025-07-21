@@ -62,6 +62,16 @@ public class PlayerController : MonoBehaviour
     }
 
     //Methods
+    void NormalAttack(GameObject target)
+    {
+        StopMoving();
+        transform.LookAt(target.transform.position);
+        GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
+        NormalAttackInstance.transform.position = transform.position;
+        NormalAttackInstance.transform.LookAt(target.transform);
+        NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
+    }
+
     void EnemyCheck(GameObject hitObject)
     {
         if (enemiesInRange.Contains(hitObject))
@@ -72,16 +82,6 @@ public class PlayerController : MonoBehaviour
         {
             MoveToAttack(hitObject);
         }
-    }
-
-    void NormalAttack(GameObject target)
-    {
-        StopMoving();
-        transform.LookAt(target.transform.position);
-        GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
-        NormalAttackInstance.transform.position = transform.position;
-        NormalAttackInstance.transform.LookAt(target.transform);
-        NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
     }
 
     void MoveToPosition(Vector3 target)

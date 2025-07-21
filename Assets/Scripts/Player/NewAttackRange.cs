@@ -1,15 +1,18 @@
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(SphereCollider))]
 public class NewAttackRange : MonoBehaviour
 {
-    private float radius = 5f;
+    private float attackRange;
     private int segments = 100;
 
     private LineRenderer lineRenderer;
+    private SphereCollider attackRangeCollider;
 
     private void Awake()
     {
+        attackRangeCollider = GetComponent<SphereCollider>();
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
         lineRenderer.loop = true;
@@ -17,8 +20,10 @@ public class NewAttackRange : MonoBehaviour
         lineRenderer.enabled = false;
     }
 
-    void Start()
+    private void Update()
     {
+        attackRange = PlayerStats.Instance.AttackRange;
+        attackRangeCollider.radius = attackRange;
         DrawCircle();
     }
 
@@ -31,16 +36,16 @@ public class NewAttackRange : MonoBehaviour
         for (int i = 0; i < segments; i++)
         {
             float angle = Mathf.Deg2Rad * i * angleStep;
-            float x = Mathf.Cos(angle) * radius;
-            float z = Mathf.Sin(angle) * radius;
+            float x = Mathf.Cos(angle) * attackRange;
+            float z = Mathf.Sin(angle) * attackRange;
             lineRenderer.SetPosition(i, new Vector3(x, 0, z));
         }
     }
 
-    // Optional: Call this to update radius dynamically
     public void SetRadius(float newRadius)
     {
-        radius = newRadius;
+        attackRange = newRadius;
+        attackRangeCollider.radius = newRadius;
         DrawCircle();
     }
 
