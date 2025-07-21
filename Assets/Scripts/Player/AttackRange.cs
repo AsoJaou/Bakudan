@@ -9,12 +9,14 @@ public class AttackRange : MonoBehaviour
 
     private LineRenderer lineRenderer;
     private SphereCollider attackRangeCollider;
+    private GameObject player;
 
     [SerializeField] private LayerMask enemyLayerMask;
     private List<GameObject> enemiesInRange = new List<GameObject>();
 
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         attackRangeCollider = GetComponent<SphereCollider>();
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
@@ -26,6 +28,7 @@ public class AttackRange : MonoBehaviour
     private void Update()
     {
         SetRadius(PlayerStats.Instance.AttackRange * 0.1f);
+        Debug.Log($"Enemies in range: {enemiesInRange.Count}");
     }
 
     public void SetRadius(float attackRange)
@@ -72,6 +75,18 @@ public class AttackRange : MonoBehaviour
         if (enemiesInRange.Contains(Enemy.gameObject.transform.parent.gameObject))
         {
             enemiesInRange.Remove(Enemy.gameObject.transform.parent.gameObject);
+        }
+    }
+
+    public void CheckEnemiesInRange(Vector3 hitPosition)
+    {
+        if (enemiesInRange.Count > 0f)
+        {
+            // Find the closest enemy
+        }
+        else
+        {
+            player.SendMessage("MoveToPosition", hitPosition);
         }
     }
 }

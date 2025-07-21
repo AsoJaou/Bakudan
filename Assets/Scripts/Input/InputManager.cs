@@ -53,19 +53,18 @@ public class InputManager : MonoBehaviour
         if (aKey.IsPressed())
         {
             attackRange.SendMessage("ShowAttackRange");
-            /*
             if (leftClick.WasPressedThisFrame())
             {
                 if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
                 {
-                    player.SendMessage("NormalAttack", hitObject);
+                    //attackRange.SendMessage("CheckEnemiesInRange", hitObject);
+                    Debug.Log("Attacking enemy: " + hitObject.name);
                 }
                 else if (LayerMask.LayerToName(hitObject.layer) == "Ground")
                 {
-                    player.SendMessage("MoveToPosition", hitPosition);
+                    attackRange.SendMessage("CheckEnemiesInRange", hitPosition);
                 }
             }
-            */
         }
         else if (aKey.WasReleasedThisFrame())
         {
