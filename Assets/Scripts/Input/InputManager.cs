@@ -38,6 +38,7 @@ public class InputManager : MonoBehaviour
             hitObject = hit.collider.gameObject;
         }
 
+        //Right Click
         if (rightClick.WasPressedThisFrame())
         {
             if (LayerMask.LayerToName(hitObject.layer) == "Ground")
@@ -50,6 +51,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
+        //A Key Input
         if (aKey.IsPressed())
         {
             attackRange.SendMessage("ShowAttackRange");
@@ -57,8 +59,14 @@ public class InputManager : MonoBehaviour
             {
                 if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
                 {
-                    //attackRange.SendMessage("CheckEnemiesInRange", hitObject);
-                    Debug.Log("Attacking enemy: " + hitObject.name);
+                    if (GameManager.Instance.EnemiesInRange.Contains(hitObject.transform.parent.gameObject))
+                    {
+                        attackRange.SendMessage("NormalAttack", hitObject.transform.parent.gameObject);
+                    }
+                    else
+                    {
+                        player.SendMessage("MoveToAttack", hitObject.transform.parent.gameObject);
+                    }
                 }
                 else if (LayerMask.LayerToName(hitObject.layer) == "Ground")
                 {

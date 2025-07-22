@@ -12,7 +12,6 @@ public class AttackRange : MonoBehaviour
     private GameObject player;
 
     [SerializeField] private LayerMask enemyLayerMask;
-    private List<GameObject> enemiesInRange = new List<GameObject>();
 
     private void Awake()
     {
@@ -28,7 +27,6 @@ public class AttackRange : MonoBehaviour
     private void Update()
     {
         SetRadius(PlayerStats.Instance.AttackRange * 0.1f);
-        Debug.Log($"Enemies in range: {enemiesInRange.Count}");
     }
 
     public void SetRadius(float attackRange)
@@ -62,31 +60,47 @@ public class AttackRange : MonoBehaviour
     {
         if (Enemy.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            if (!enemiesInRange.Contains(Enemy.gameObject))
-            {
-
-                enemiesInRange.Add(Enemy.gameObject.transform.parent.gameObject);
-            }
+            GameManager.Instance.AddEnemyToRange(Enemy.gameObject.transform.parent.gameObject);
         }
     }
 
     private void OnTriggerExit(Collider Enemy)
     {
-        if (enemiesInRange.Contains(Enemy.gameObject.transform.parent.gameObject))
+        if (Enemy.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            enemiesInRange.Remove(Enemy.gameObject.transform.parent.gameObject);
+            GameManager.Instance.RemoveEnemyFromRange(Enemy.gameObject.transform.parent.gameObject);
         }
     }
 
     public void CheckEnemiesInRange(Vector3 hitPosition)
     {
-        if (enemiesInRange.Count > 0f)
+        return;
+    }
+
+    void AttackClosestEnemy()
+    {
+        GameObject closestEnemy = null;
+        float closestEnemyDistance = Mathf.Infinity;
+        foreach (GameObject enemy in GameManager.Instance.EnemiesInRange)
         {
-            // Find the closest enemy
+            float distance = Vector3.Distance(player.transform.position, enemy.transform.position);
+            if (distance < closestEnemyDistance)
+            {
+                closestEnemyDistance = distance;
+                closestEnemy = enemy;
+            }
         }
-        else
-        {
-            player.SendMessage("MoveToPosition", hitPosition);
-        }
+        
+        NormalAttack(closestEnemy);
+    }
+
+    void NormalAttack(GameObject target)
+    {
+        player.SendMessage("StopMoving");
+        transform.parent.LookAt(target.transform.position);
+        GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
+        NormalAttackInstance.transform.position = transform.position;
+        NormalAttackInstance.transform.LookAt(target.transform);
+        NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
     }
 }

@@ -54,33 +54,10 @@ public class PlayerController : MonoBehaviour
             Vector3 moveDir = agent.desiredVelocity.normalized;
             agent.velocity = moveDir * baseMoveSpeed * 0.1f;
 
-            if (moveDir !=  Vector3.zero)
+            if (moveDir != Vector3.zero)
             {
                 transform.rotation = Quaternion.LookRotation(moveDir);
             }
-        }
-    }
-
-    //Methods
-    void NormalAttack(GameObject target)
-    {
-        StopMoving();
-        transform.LookAt(target.transform.position);
-        GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
-        NormalAttackInstance.transform.position = transform.position;
-        NormalAttackInstance.transform.LookAt(target.transform);
-        NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
-    }
-
-    void EnemyCheck(GameObject hitObject)
-    {
-        if (enemiesInRange.Contains(hitObject))
-        {
-            NormalAttack(hitObject);
-        }
-        else
-        {
-            MoveToAttack(hitObject);
         }
     }
 
@@ -113,63 +90,6 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         StopMoving();
-        NormalAttack(target);
-    }
-
-    //Raycast
-    RaycastHit? MouseLayerDetection()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        int DetectableLayers =
-            (1 << LayerMask.NameToLayer("Ground")) |
-            (1 << LayerMask.NameToLayer("Enemy"));
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, DetectableLayers))
-        {
-            return hit;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    //Find Closest Enemy
-    /*
-    GameObject FindClosestEnemy()
-    {
-        closestEnemyDistance = Mathf.Infinity;
-        foreach (GameObject enemy in enemiesInRange)
-        {
-            float distance = Vector3.Distance(hitPosition, enemy.transform.position);
-
-            if (distance < closestEnemyDistance)
-            {
-                closestEnemyDistance = distance;
-                closestEnemy = enemy;
-            }
-        }
-
-        return closestEnemy;
-    }
-    */
-
-    //Message Methods
-    void EnemyEnterAttackRange(Collider Enemy)
-    {
-        if (!enemiesInRange.Contains(Enemy.gameObject))
-        {
-            enemiesInRange.Add(Enemy.gameObject);
-        }
-    }
-
-    void EnemyExitAttackRange(Collider Enemy)
-    {
-        if (enemiesInRange.Contains(Enemy.gameObject))
-        {
-            enemiesInRange.Remove(Enemy.gameObject);
-        }
+        attackRange.SendMessage("NormalAttack", target);
     }
 }
