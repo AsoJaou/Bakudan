@@ -85,7 +85,7 @@ public class AttackRange : MonoBehaviour
                 closestEnemy = enemy;
             }
         }
-        
+
         NormalAttack(closestEnemy);
     }
 
