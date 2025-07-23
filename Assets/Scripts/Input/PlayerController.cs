@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         StopMoving();
 
+        Debug.Log("Moving to attack: " + target.name);
         targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
         isMoving = StartCoroutine(MoveToAttackCorutine(target, targetPos));
     }
@@ -85,7 +86,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator MoveToAttackCorutine(GameObject target, Vector3 targetPos)
     {
         agent.SetDestination(targetPos);
-        while (!enemiesInRange.Contains(target))
+        while (!GameManager.Instance.EnemiesInRange.Contains(target))
         {
             yield return null;
         }

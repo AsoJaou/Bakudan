@@ -47,7 +47,14 @@ public class InputManager : MonoBehaviour
             }
             else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
             {
-                attackRange.SendMessage("NormalAttack", hitObject.transform.parent.gameObject);
+                if (GameManager.Instance.EnemiesInRange.Contains(hitObject.transform.parent.gameObject))
+                {
+                    attackRange.SendMessage("NormalAttack", hitObject.transform.parent.gameObject);
+                }
+                else
+                {
+                    player.SendMessage("MoveToAttack", hitObject.transform.parent.gameObject);
+                }
             }
         }
 
