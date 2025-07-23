@@ -72,18 +72,13 @@ public class AttackRange : MonoBehaviour
         }
     }
 
-    public void CheckEnemiesInRange(Vector3 hitPosition)
-    {
-        return;
-    }
-
-    void AttackClosestEnemy()
+    void AttackClosestEnemy(Vector3 HitPosition)
     {
         GameObject closestEnemy = null;
         float closestEnemyDistance = Mathf.Infinity;
         foreach (GameObject enemy in GameManager.Instance.EnemiesInRange)
         {
-            float distance = Vector3.Distance(player.transform.position, enemy.transform.position);
+            float distance = Vector3.Distance(HitPosition, enemy.transform.position);
             if (distance < closestEnemyDistance)
             {
                 closestEnemyDistance = distance;

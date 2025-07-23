@@ -16,7 +16,8 @@ public class InputManager : MonoBehaviour
     private Vector3 hitPosition;
     private GameObject hitObject;
 
-    
+    private float leftClickDetection = 0f;
+    private float leftClickOffset = 0.1f;
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(leftClickDetection);
         RaycastHit? maybeHit = MouseLayerDetection();
 
         if (maybeHit is RaycastHit hit)
@@ -61,29 +63,43 @@ public class InputManager : MonoBehaviour
         //A Key Input
         if (aKey.IsPressed())
         {
+            leftClickDetection = leftClickOffset;
             attackRange.SendMessage("ShowAttackRange");
-            if (leftClick.WasPressedThisFrame())
-            {
-                if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
-                {
-                    if (GameManager.Instance.EnemiesInRange.Contains(hitObject.transform.parent.gameObject))
-                    {
-                        attackRange.SendMessage("NormalAttack", hitObject.transform.parent.gameObject);
-                    }
-                    else
-                    {
-                        player.SendMessage("MoveToAttack", hitObject.transform.parent.gameObject);
-                    }
-                }
-                else if (LayerMask.LayerToName(hitObject.layer) == "Ground")
-                {
-                    attackRange.SendMessage("CheckEnemiesInRange", hitPosition);
-                }
-            }
         }
         else if (aKey.WasReleasedThisFrame())
         {
             attackRange.SendMessage("HideAttackRange");
+        }
+
+        if (leftClickDetection > 0f)
+        {
+            leftClickDetection -= Time.deltaTime;
+        }
+
+        if (leftClick.WasPressedThisFrame() && leftClickDetection > 0f)
+        {
+            if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
+            {
+                if (GameManager.Instance.EnemiesInRange.Contains(hitObject.transform.parent.gameObject))
+                {
+                    attackRange.SendMessage("NormalAttack", hitObject.transform.parent.gameObject);
+                }
+                else
+                {
+                    player.SendMessage("MoveToAttack", hitObject.transform.parent.gameObject);
+                }
+            }
+            else if (LayerMask.LayerToName(hitObject.layer) == "Ground")
+            {
+                if (GameManager.Instance.EnemiesInRange.Count > 0f)
+                {
+                    attackRange.SendMessage("AttackClosestEnemy", hitPosition);
+                }
+                else
+                {
+                    player.SendMessage("MoveToPosition", hitPosition);
+                }
+            }
         }
     }
 

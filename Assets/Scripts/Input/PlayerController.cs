@@ -71,7 +71,6 @@ public class PlayerController : MonoBehaviour
     {
         StopMoving();
 
-        Debug.Log("Moving to attack: " + target.name);
         targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
         isMoving = StartCoroutine(MoveToAttackCorutine(target, targetPos));
     }
