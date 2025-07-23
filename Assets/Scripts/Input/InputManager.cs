@@ -31,7 +31,6 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(leftClickDetection);
         RaycastHit? maybeHit = MouseLayerDetection();
 
         if (maybeHit is RaycastHit hit)
