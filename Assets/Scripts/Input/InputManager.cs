@@ -47,7 +47,7 @@ public class InputManager : MonoBehaviour
             }
             else if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
             {
-                player.SendMessage("EnemyCheck", hitObject);
+                attackRange.SendMessage("NormalAttack", hitObject.transform.parent.gameObject);
             }
         }
 

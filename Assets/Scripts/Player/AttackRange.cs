@@ -96,11 +96,14 @@ public class AttackRange : MonoBehaviour
 
     void NormalAttack(GameObject target)
     {
+        GameObject character = GameObject.FindGameObjectWithTag("Character");
         player.SendMessage("StopMoving");
         transform.parent.LookAt(target.transform.position);
-        GameObject NormalAttackInstance = Instantiate(transform.Find("Normal Attack").gameObject);
+        GameObject NormalAttackInstance = Instantiate(character.transform.Find("Normal Attack").gameObject);
         NormalAttackInstance.transform.position = transform.position;
         NormalAttackInstance.transform.LookAt(target.transform);
         NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
     }
+
+
 }
