@@ -14,4 +14,20 @@ public class EnemyStats : MonoBehaviour
     {
         currentHealth = maxHealth;
     }
+
+    void HealthChange(float health)
+    {
+        Debug.Log("Health Change: " + health);
+        currentHealth = Mathf.Clamp(currentHealth + health, 0, maxHealth);
+        Debug.Log(Equals(enemyName, "Player") ? "Player Health: " + currentHealth : enemyName + " Health: " + currentHealth);
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
+    }
 }

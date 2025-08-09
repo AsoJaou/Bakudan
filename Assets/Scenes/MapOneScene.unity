@@ -1061,9 +1061,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseSpeed: 67
   baseAttackSpeed: 15
-  baseAttackDamage: 0
+  baseAttackDamage: 20
   baseHealth: 600
   baseAttackRange: 70
+  currentHealth: 0
 --- !u!1 &1628077802
 GameObject:
   m_ObjectHideFlags: 0

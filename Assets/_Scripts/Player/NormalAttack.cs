@@ -11,22 +11,24 @@ public class NormalAttack : MonoBehaviour
 
     void AttackTarget(GameObject target)
     {
-        StartCoroutine(MoveToPosition(target.transform));
-
+        StartCoroutine(MoveToPosition(target));
     }
 
-    IEnumerator MoveToPosition(Transform targetPosition)
+    IEnumerator MoveToPosition(GameObject target)
     {
-        while (Vector3.Distance(transform.position, targetPosition.position) > 0.1f)
+        while (Vector3.Distance(transform.position, target.transform.position) > 0.1f)
         {
-            transform.LookAt(new Vector3(targetPosition.position.x, transform.position.y, targetPosition.position.z));
+            transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
             currentPos = transform.position;
-            displacement = targetPosition.position - currentPos;
+            displacement = target.transform.position - currentPos;
             direction = displacement.normalized * Time.deltaTime;
             transform.position += direction * baseAttackSpeed;
 
             yield return null;
         }
+
+        target.SendMessage("HealthChange", -PlayerStats.Instance.AttackDamage);
+
         Destroy(gameObject);
     }
 }

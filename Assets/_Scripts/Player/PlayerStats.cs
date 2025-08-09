@@ -7,15 +7,17 @@ public class PlayerStats : MonoBehaviour
     [Header("Base Stats")]
     [SerializeField] private float baseSpeed = 67f;
     [SerializeField] private float baseAttackSpeed = 15f;
-    [SerializeField] private float baseAttackDamage = 0f;
+    [SerializeField] private float baseAttackDamage = 20f;
     [SerializeField] private float baseHealth = 600f;
     [SerializeField] private float baseAttackRange = 70f;
+    [SerializeField] private float currentHealth;
 
     public float Speed => baseSpeed;
     public float AttackSpeed => baseAttackSpeed;
     public float AttackDamage => baseAttackDamage;
     public float Health => baseHealth;
     public float AttackRange => baseAttackRange;
+
 
     private void Awake()
     {
