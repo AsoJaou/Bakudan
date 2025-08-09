@@ -10,6 +10,13 @@ public class EnemyStats : MonoBehaviour
 
     private float currentHealth;
 
+    private GameObject healthBar;
+
+    private void Awake()
+    {
+        healthBar = transform.Find("Healthbar Canvas").gameObject;
+    }
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -17,9 +24,10 @@ public class EnemyStats : MonoBehaviour
 
     void HealthChange(float health)
     {
-        Debug.Log("Health Change: " + health);
         currentHealth = Mathf.Clamp(currentHealth + health, 0, maxHealth);
-        Debug.Log(Equals(enemyName, "Player") ? "Player Health: " + currentHealth : enemyName + " Health: " + currentHealth);
+
+        healthBar.SendMessage("UpdateHealthbar", currentHealth / maxHealth);
+
         if (currentHealth <= 0)
         {
             Die();
@@ -28,6 +36,10 @@ public class EnemyStats : MonoBehaviour
 
     void Die()
     {
+        if (GameManager.Instance.EnemiesInRange.Contains(gameObject))
+        {
+            GameManager.Instance.RemoveEnemyFromRange(gameObject);
+        }
         Destroy(gameObject);
     }
 }
