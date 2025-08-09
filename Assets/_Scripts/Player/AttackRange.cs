@@ -24,8 +24,6 @@ public class AttackRange : MonoBehaviour
         lineRenderer.enabled = false;
         lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
         lineRenderer.material.color = new Color(0.88f, 0.55f, 0.71f, 0.5f);
-
-
     }
 
     private void Update()
