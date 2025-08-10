@@ -9,4 +9,9 @@ public class EnemyHealthbar : MonoBehaviour
     {
         healthBarSprite.fillAmount = currentHealthPercentage;
     }
+
+    private void Update()
+    {
+        transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up);
+    }
 }
