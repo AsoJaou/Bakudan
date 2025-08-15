@@ -13,6 +13,7 @@ public class PayloadRange : MonoBehaviour
     private SphereCollider payloadRangeCollider;
     private SplineAnimate splineAnimate;
     private GameObject payloadPercentageUI;
+    [SerializeField] private GameObject sceneManager;
 
     private void Awake()
     {
@@ -47,6 +48,11 @@ public class PayloadRange : MonoBehaviour
         if (payloadIsMoving)
         {
             payloadPercentageUI.SendMessage("UpdatePayloadBar", splineAnimate.ElapsedTime / splineAnimate.Duration);
+        }
+
+        if (splineAnimate.ElapsedTime >= splineAnimate.Duration)
+        {
+            sceneManager.SendMessage("LoadScene", "VictoryScene");
         }
     }
 
