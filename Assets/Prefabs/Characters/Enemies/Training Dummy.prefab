@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2549744176268357744}
   - component: {fileID: 8837100028957632931}
   - component: {fileID: 8171353207635440200}
+  - component: {fileID: 4494876636412865172}
   m_Layer: 0
   m_Name: Training Dummy
   m_TagString: Untagged
@@ -53,7 +54,7 @@ MonoBehaviour:
   enemyName: Training Dummy
   maxHealth: 100
   damage: 0
-  moveSpeed: 0
+  speed: 5
   attackRange: 4
 --- !u!195 &8837100028957632931
 NavMeshAgent:
@@ -68,10 +69,10 @@ NavMeshAgent:
   m_Speed: 6
   m_Acceleration: 9999
   avoidancePriority: 50
-  m_AngularSpeed: 0
+  m_AngularSpeed: 400
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
@@ -97,6 +98,18 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &4494876636412865172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78442577987633931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef0371677f3d8f74c8f2b366b851aa52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &876558704166089645
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +388,7 @@ GameObject:
   - component: {fileID: 6748097152927489498}
   - component: {fileID: 6134410255137149278}
   - component: {fileID: 4808484814831463854}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CollisionBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}

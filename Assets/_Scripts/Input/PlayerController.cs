@@ -7,10 +7,6 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Move Settings")]
-    [SerializeField]
-    private float baseMoveSpeed = 67f;
-
     //Input Actions
     private InputAction rightClick;
     private InputAction leftClick;
@@ -52,7 +48,7 @@ public class PlayerController : MonoBehaviour
         if (agent.hasPath)
         {
             Vector3 moveDir = agent.desiredVelocity.normalized;
-            agent.velocity = moveDir * baseMoveSpeed * 0.1f;
+            agent.velocity = moveDir * PlayerStats.Instance.Speed * 0.1f;
 
             if (moveDir != Vector3.zero)
             {

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5244282892932747040}
   m_Layer: 0
   m_Name: Payload
-  m_TagString: Untagged
+  m_TagString: Payload
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_LoopMode: 1
   m_Method: 1
   m_Duration: 1
-  m_MaxSpeed: 5
+  m_MaxSpeed: 2
   m_EasingMode: 0
   m_AlignmentMode: 1
   m_ObjectForwardAxis: 2
@@ -307,6 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9ed916a55a4ba4791310bc679c2d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneManager: {fileID: 0}
 --- !u!135 &6718798842179525216
 SphereCollider:
   m_ObjectHideFlags: 0
