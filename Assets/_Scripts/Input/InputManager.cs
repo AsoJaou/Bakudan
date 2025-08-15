@@ -16,8 +16,7 @@ public class InputManager : MonoBehaviour
     private Vector3 hitPosition;
     private GameObject hitObject;
 
-    private float leftClickDetection = 0f;
-    private float leftClickOffset = 0.1f;
+    private bool readyToAttack = false;
 
     private void Awake()
     {
@@ -39,9 +38,18 @@ public class InputManager : MonoBehaviour
             hitObject = hit.collider.gameObject;
         }
 
+        if (!readyToAttack)
+        {
+            attackRange.SendMessage("HideAttackRange");
+        }
+
         //Right Click
         if (rightClick.WasPressedThisFrame())
         {
+            if (readyToAttack)
+            {
+                readyToAttack = false;
+            }
             if (LayerMask.LayerToName(hitObject.layer) == "Ground")
             {
                 player.SendMessage("MoveToPosition", hitPosition);
@@ -62,20 +70,11 @@ public class InputManager : MonoBehaviour
         //A Key Input
         if (aKey.IsPressed())
         {
-            leftClickDetection = leftClickOffset;
+            readyToAttack = true;
             attackRange.SendMessage("ShowAttackRange");
         }
-        else if (aKey.WasReleasedThisFrame())
-        {
-            attackRange.SendMessage("HideAttackRange");
-        }
 
-        if (leftClickDetection > 0f)
-        {
-            leftClickDetection -= Time.deltaTime;
-        }
-
-        if (leftClick.WasPressedThisFrame() && leftClickDetection > 0f)
+        if (leftClick.WasPressedThisFrame() && readyToAttack)
         {
             if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
             {
@@ -99,6 +98,7 @@ public class InputManager : MonoBehaviour
                     player.SendMessage("MoveToPosition", hitPosition);
                 }
             }
+            readyToAttack = false;
         }
     }
 
