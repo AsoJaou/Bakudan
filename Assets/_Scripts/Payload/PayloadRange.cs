@@ -22,7 +22,6 @@ public class PayloadRange : MonoBehaviour
         payloadRangeCollider = GetComponent<SphereCollider>();
         lineRenderer.useWorldSpace = false;
         lineRenderer.loop = true;
-        lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
         lineRenderer.material.color = new Color(0.553f, 0.784f, 0.851f, 0.7f);
         payloadPercentageUI = transform.parent.Find("Payload Percentage UI").gameObject;
     }

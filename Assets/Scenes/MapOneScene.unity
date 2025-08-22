@@ -1054,7 +1054,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 95d5d6d5bc93be0408cb383ffaf7f8d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2034,7 +2034,7 @@ PrefabInstance:
       objectReference: {fileID: 1720291993}
     - target: {fileID: 4321188797347417014, guid: 32bf204ca2c4dbb4aa2346b60b1aaf94, type: 3}
       propertyPath: m_Duration
-      value: 17.690544
+      value: 44.22636
       objectReference: {fileID: 0}
     - target: {fileID: 5017833999051130000, guid: 32bf204ca2c4dbb4aa2346b60b1aaf94, type: 3}
       propertyPath: sceneManager
