@@ -10,12 +10,29 @@ public class AttackRange : MonoBehaviour
     private LineRenderer lineRenderer;
     private SphereCollider attackRangeCollider;
     private GameObject player;
+    private PlayerController playerController;
+    private GameObject normalAttackPrefab;
 
     [SerializeField] private LayerMask enemyLayerMask;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerController = player.GetComponent<PlayerController>();
+        }
+
+        var character = GameObject.FindGameObjectWithTag("Character");
+        if (character != null)
+        {
+            var normalAttackTransform = character.transform.Find("Normal Attack");
+            if (normalAttackTransform != null)
+            {
+                normalAttackPrefab = normalAttackTransform.gameObject;
+            }
+        }
+
         attackRangeCollider = GetComponent<SphereCollider>();
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
@@ -73,7 +90,7 @@ public class AttackRange : MonoBehaviour
         }
     }
 
-    void AttackClosestEnemy(Vector3 HitPosition)
+    private void AttackClosestEnemy(Vector3 HitPosition)
     {
         GameObject closestEnemy = null;
         float closestEnemyDistance = Mathf.Infinity;
@@ -90,16 +107,34 @@ public class AttackRange : MonoBehaviour
         NormalAttack(closestEnemy);
     }
 
-    void NormalAttack(GameObject target)
+    public void NormalAttack(GameObject target)
     {
-        GameObject character = GameObject.FindGameObjectWithTag("Character");
-        player.SendMessage("StopMoving");
+        if (target == null)
+        {
+            return;
+        }
+
+        if (playerController != null)
+        {
+            playerController.StopMoving();
+        }
+
         transform.parent.LookAt(target.transform.position);
-        GameObject NormalAttackInstance = Instantiate(character.transform.Find("Normal Attack").gameObject);
-        NormalAttackInstance.transform.position = transform.position;
-        NormalAttackInstance.transform.LookAt(target.transform);
-        NormalAttackInstance.SendMessage("AttackTarget", target, SendMessageOptions.DontRequireReceiver);
+
+        if (normalAttackPrefab == null)
+        {
+            Debug.LogWarning("NormalAttack prefab not assigned.");
+            return;
+        }
+
+        GameObject normalAttackInstance = Instantiate(normalAttackPrefab);
+        normalAttackInstance.transform.position = transform.position;
+        normalAttackInstance.transform.LookAt(target.transform);
+
+        NormalAttack attackBehaviour = normalAttackInstance.GetComponent<NormalAttack>();
+        if (attackBehaviour != null)
+        {
+            attackBehaviour.AttackTarget(target);
+        }
     }
-
-
 }

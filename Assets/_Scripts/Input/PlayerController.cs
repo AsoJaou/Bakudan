@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     //Attack Range Variables
     private GameObject attackRange;
+    private AttackRange attackRangeComponent;
     private GameObject closestEnemy;
     private float closestEnemyDistance;
     private List<GameObject> enemiesInRange = new List<GameObject>();
@@ -30,6 +31,11 @@ public class PlayerController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         attackRange = transform.Find("Attack Range").gameObject;
+        if (attackRange != null)
+        {
+            attackRangeComponent = attackRange.GetComponent<AttackRange>();
+        }
+
         rightClick = InputSystem.actions.FindAction("Right Mouse Button");
         leftClick = InputSystem.actions.FindAction("Left Mouse Button");
         aKey = InputSystem.actions.FindAction("A");
@@ -71,7 +77,7 @@ public class PlayerController : MonoBehaviour
         isMoving = StartCoroutine(MoveToAttackCorutine(target, targetPos));
     }
 
-    void StopMoving()
+    public void StopMoving()
     {
         agent.ResetPath();
         agent.velocity = Vector3.zero;
@@ -86,6 +92,6 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         StopMoving();
-        attackRange.SendMessage("NormalAttack", target);
+        attackRangeComponent?.NormalAttack(target);
     }
 }

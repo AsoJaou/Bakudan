@@ -11,7 +11,7 @@ public class NormalAttack : MonoBehaviour
 
     private Vector3 targetPosition;
 
-    void AttackTarget(GameObject target)
+    public void AttackTarget(GameObject target)
     {
         if (target != null)
         {
