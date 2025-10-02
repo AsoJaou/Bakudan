@@ -3,43 +3,50 @@ using UnityEngine;
 
 public class NormalAttack : MonoBehaviour
 {
-    //Normal Attack Variables
-    private float baseAttackSpeed = 15f;
-    private Vector3 currentPos;
-    private Vector3 displacement;
-    private Vector3 direction;
+    private const float baseAttackSpeed = 15f;
 
-    private Vector3 targetPosition;
+    private GameObject currentTarget;
+    private Transform targetTransform;
 
     public void AttackTarget(GameObject target)
     {
-        if (target != null)
+        currentTarget = target;
+        targetTransform = currentTarget != null ? currentTarget.transform : null;
+
+        if (targetTransform == null)
         {
-            targetPosition = target.transform.position;
+            Destroy(gameObject);
+            return;
         }
-        StartCoroutine(MoveToPosition(targetPosition, target));
+
+        StartCoroutine(FollowTarget());
     }
 
-    IEnumerator MoveToPosition(Vector3 targetPosition, GameObject target)
+    private IEnumerator FollowTarget()
     {
-        if (target == null)
+        while (true)
         {
-            yield break;
-        }
-        while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
-        {
-            transform.LookAt(new Vector3(targetPosition.x, transform.position.y, targetPosition.z));
-            currentPos = transform.position;
-            displacement = targetPosition - currentPos;
-            direction = displacement.normalized * Time.deltaTime;
-            transform.position += direction * baseAttackSpeed;
+            if (currentTarget == null || targetTransform == null)
+            {
+                break;
+            }
+
+            Vector3 targetPosition = targetTransform.position;
+            Vector3 planarTarget = new Vector3(targetPosition.x, transform.position.y, targetPosition.z);
+
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, baseAttackSpeed * Time.deltaTime);
+            transform.LookAt(planarTarget);
+
+            if (Vector3.Distance(transform.position, targetPosition) <= 0.1f)
+            {
+                if (currentTarget != null)
+                {
+                    currentTarget.SendMessage("HealthChange", -PlayerStats.Instance.AttackDamage, SendMessageOptions.DontRequireReceiver);
+                }
+                break;
+            }
 
             yield return null;
-        }
-
-        if (target != null)
-        {
-            target.SendMessage("HealthChange", -PlayerStats.Instance.AttackDamage);
         }
 
         Destroy(gameObject);
