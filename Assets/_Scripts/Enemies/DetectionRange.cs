@@ -38,6 +38,7 @@ public class DetectionRange : MonoBehaviour
             obj.SendMessage("HealthChange", -50, SendMessageOptions.DontRequireReceiver);
         }
 
+        GameManager.Instance.RemoveEnemyFromRange(transform.parent.gameObject);
         Destroy(transform.parent.gameObject);
     }
 }
