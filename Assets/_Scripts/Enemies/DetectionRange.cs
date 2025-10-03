@@ -78,7 +78,7 @@ public class DetectionRange : MonoBehaviour
             }
             else if (obj.CompareTag("Payload Collider"))
             {
-                Debug.Log("Payload hit!");
+                obj.transform.parent.gameObject.GetComponent<PayloadStats>().HealthChange(-50f);
             }
         }
 
