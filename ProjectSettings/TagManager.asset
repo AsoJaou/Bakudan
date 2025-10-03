@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Character
   - Payload
+  - Player Collider
+  - Payload Collider
   layers:
   - Default
   - TransparentFX
@@ -16,8 +18,8 @@ TagManager:
   - UI
   - Enemy
   - IgnoreNavMesh
-  - 
-  - 
+  - Player
+  - Payload
   - 
   - 
   - 

@@ -895,6 +895,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Legi
       objectReference: {fileID: 0}
+    - target: {fileID: 4564017052301443498, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6275136617069248474, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3039847319157568176, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
@@ -2040,10 +2048,6 @@ PrefabInstance:
       propertyPath: sceneManager
       value: 
       objectReference: {fileID: 1616631126}
-    - target: {fileID: 6718798842179525216, guid: 32bf204ca2c4dbb4aa2346b60b1aaf94, type: 3}
-      propertyPath: m_Radius
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 8696822896489614839, guid: 32bf204ca2c4dbb4aa2346b60b1aaf94, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.15159325
