@@ -11,7 +11,6 @@ public class DetectionRange : MonoBehaviour
         if (other.CompareTag("Player Collider") || other.CompareTag("Payload Collider"))
         {
             detectedObjects.Add(other.gameObject);
-            Debug.Log("Detected " + other.gameObject.name);
             StartCoroutine(ExplosionCountdown());
         }
     }
@@ -35,7 +34,14 @@ public class DetectionRange : MonoBehaviour
         Debug.Log("Detonated!");
         foreach (var obj in detectedObjects)
         {
-            obj.SendMessage("HealthChange", -50, SendMessageOptions.DontRequireReceiver);
+            if (obj.CompareTag("Player Collider"))
+            {
+                PlayerStats.Instance.HealthChange(-50f);
+            }
+            else if (obj.CompareTag("Payload Collider"))
+            {
+                Debug.Log("Payload hit!");
+            }
         }
 
         GameManager.Instance.RemoveEnemyFromRange(transform.parent.gameObject);

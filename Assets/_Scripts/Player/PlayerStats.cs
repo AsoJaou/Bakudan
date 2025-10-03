@@ -17,7 +17,7 @@ public class PlayerStats : MonoBehaviour
     public float AttackDamage => baseAttackDamage;
     public float Health => baseHealth;
     public float AttackRange => baseAttackRange;
-
+    public float CurrentHealth => currentHealth;
 
     private void Awake()
     {
@@ -34,5 +34,15 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         currentHealth = baseHealth;
+    }
+
+    public void HealthChange(float amount)
+    {
+        if (Mathf.Approximately(amount, 0f))
+        {
+            return;
+        }
+
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0f, baseHealth);
     }
 }
