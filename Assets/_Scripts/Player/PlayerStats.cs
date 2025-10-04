@@ -4,6 +4,8 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance { get; private set; }
 
+    [SerializeField] private GameObject sceneManager;
+
     [Header("Base Stats")]
     [SerializeField] private float baseSpeed = 67f;
     [SerializeField] private float baseAttackSpeed = 15f;
@@ -47,5 +49,10 @@ public class PlayerStats : MonoBehaviour
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0f, baseHealth);
         healthBar.SendMessage("UpdateHealthBar", currentHealth / baseHealth);
+
+        if (currentHealth <= 0f)
+        {
+            sceneManager.SendMessage("LoadScene", "DefeatScene");
+        }
     }
 }
