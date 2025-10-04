@@ -1212,8 +1212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   enemyPrefab: {fileID: 78442577987633931, guid: a4d8db3f130de084a975b55dd70069ca, type: 3}
-  spawnIntervalRange: {x: 1, y: 6}
-  spawnCountPerWave: 2
+  spawnIntervalRange: {x: 1, y: 3}
+  spawnCountPerWave: 4
   spawnHeightOffset: 0
   followTarget: 1
   followTransform: {fileID: 330585546}
