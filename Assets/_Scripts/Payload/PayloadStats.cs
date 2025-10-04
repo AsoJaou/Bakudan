@@ -4,6 +4,8 @@ public class PayloadStats : MonoBehaviour
 {
     public static PlayerStats Instance { get; private set; }
 
+    [SerializeField] private GameObject sceneManager;
+
     [Header("Base Stats")]
     [SerializeField] private float baseSpeed = 67f;
     [SerializeField] private float maxHealth = 1000f;
@@ -33,12 +35,7 @@ public class PayloadStats : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Die();
+            sceneManager.SendMessage("LoadScene", "DefeatScene");
         }
-    }
-
-    void Die()
-    {
-        Destroy(gameObject);
     }
 }

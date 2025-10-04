@@ -309,50 +309,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &68591641
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 68591643}
-  - component: {fileID: 68591642}
-  m_Layer: 0
-  m_Name: Round Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &68591642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 68591641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2017a1b4d06826845bcb19b55e6ae878, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &68591643
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 68591641}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &117180090 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4158319800305964066, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
@@ -802,6 +758,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8447294425455991376, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
+      propertyPath: sceneManager
+      value: 
+      objectReference: {fileID: 1616631126}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3039847319157568176, guid: 2d7f3fd9b3143fd4aa55fe481f697def, type: 3}
@@ -1623,6 +1583,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2795566607213526275, guid: 32bf204ca2c4dbb4aa2346b60b1aaf94, type: 3}
+      propertyPath: maxHealth
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2795566607213526275, guid: 32bf204ca2c4dbb4aa2346b60b1aaf94, type: 3}
+      propertyPath: sceneManager
+      value: 
+      objectReference: {fileID: 1616631126}
     - target: {fileID: 4321188797347417014, guid: 32bf204ca2c4dbb4aa2346b60b1aaf94, type: 3}
       propertyPath: m_Target
       value: 
@@ -1666,5 +1634,4 @@ SceneRoots:
   - {fileID: 1628077803}
   - {fileID: 1720291994}
   - {fileID: 5619276549798827661}
-  - {fileID: 68591643}
   - {fileID: 1630855551}
