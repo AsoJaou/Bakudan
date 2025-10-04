@@ -46,6 +46,6 @@ public class PlayerStats : MonoBehaviour
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0f, baseHealth);
-        healthBar.SendMessage("UpdateHealthBar", (currentHealth + amount) / baseHealth);
+        healthBar.SendMessage("UpdateHealthBar", currentHealth / baseHealth);
     }
 }
