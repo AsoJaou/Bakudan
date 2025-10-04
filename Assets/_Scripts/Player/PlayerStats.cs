@@ -19,6 +19,8 @@ public class PlayerStats : MonoBehaviour
     public float AttackRange => baseAttackRange;
     public float CurrentHealth => currentHealth;
 
+    public GameObject healthBar;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -28,6 +30,7 @@ public class PlayerStats : MonoBehaviour
         }
 
         Instance = this;
+
     }
 
     private void Start()
@@ -43,5 +46,6 @@ public class PlayerStats : MonoBehaviour
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0f, baseHealth);
+        healthBar.SendMessage("UpdateHealthBar", (currentHealth + amount) / baseHealth);
     }
 }
