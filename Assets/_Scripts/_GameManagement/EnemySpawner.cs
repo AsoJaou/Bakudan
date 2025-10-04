@@ -4,13 +4,16 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private Vector2 spawnIntervalRange = new Vector2(2f, 5f);
+    [SerializeField] private Vector2 spawnIntervalRange = new Vector2(1.5f, 3.5f);
     [SerializeField] private int spawnCountPerWave = 1;
-    [SerializeField] private bool spawnOnStart = true;
     [SerializeField] private float spawnHeightOffset = 0f;
+    [SerializeField] private bool followTarget = true;
+    [SerializeField] private Transform followTransform;
+    [SerializeField] private Vector3 followOffset = Vector3.zero;
 
     private BoxCollider spawnArea;
     private float spawnTimer;
+    private float initialYPosition;
 
     private void Awake()
     {
@@ -24,16 +27,30 @@ public class EnemySpawner : MonoBehaviour
             spawnArea.isTrigger = true;
         }
 
-        spawnTimer = GetRandomInterval();
-
-        if (spawnOnStart)
+        if (followTarget && followTransform == null)
         {
-            SpawnWave();
+            var cam = Camera.main;
+            if (cam != null)
+            {
+                followTransform = cam.transform;
+            }
         }
+
+        initialYPosition = transform.position.y;
+        spawnTimer = GetRandomInterval();
     }
 
     private void Update()
     {
+        if (followTarget && followTransform != null)
+        {
+            var position = transform.position;
+            position.x = followTransform.position.x + followOffset.x;
+            position.z = followTransform.position.z + followOffset.z;
+            position.y = initialYPosition + followOffset.y;
+            transform.position = position;
+        }
+
         if (enemyPrefab == null)
         {
             return;
