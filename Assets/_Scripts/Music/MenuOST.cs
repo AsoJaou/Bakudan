@@ -3,7 +3,7 @@ using UnityEngine;
 public class MenuOST : MonoBehaviour
 {
     public AudioSource music;
-    public float loopEndTime = 125f;
+    public float loopEndTime;
 
     void Update()
     {
