@@ -4,22 +4,23 @@ using UnityEngine.InputSystem;
 public class CameraFollowPlayer : MonoBehaviour
 {
     [Header("Private Variables")]
-    [SerializeField]
-    private Transform Player;
+    [SerializeField] private Transform player;
 
-    //Input Actions
-    private InputAction Y;
-    private InputAction Space;
+    [Header("Clamp Bounds (World Space)")]
+    [SerializeField] private Vector2 minBounds = new Vector2(-50f, -50f);
+    [SerializeField] private Vector2 maxBounds = new Vector2(50f, 50f);
 
-    //Camera Settings
+    [Header("Unlocked Camera Settings")]
+    [SerializeField] private float edgeThreshold = 5f;
+    [SerializeField] private float cameraMoveSpeed = 60f;
+
+    private InputAction toggleFollowAction;
+    private InputAction holdFollowAction;
+
     private Vector3 cameraDistance;
-    private bool cameraFollow;
+    private bool cameraFollow = true;
 
-    //Unlocked Camera
-    private float edgeThreshold = 5f;
-    private float cameraMoveSpeed = 60f;
     private Vector3 mousePosition;
-    private Vector3 cameraPosition;
     private bool isTouchingLeftEdge;
     private bool isTouchingRightEdge;
     private bool isTouchingTopEdge;
@@ -27,44 +28,37 @@ public class CameraFollowPlayer : MonoBehaviour
 
     private void Awake()
     {
-        Player = GameObject.FindGameObjectWithTag("Player").transform;
-        Y = InputSystem.actions.FindAction("Y");
-        Space = InputSystem.actions.FindAction("Space");
-        cameraDistance = transform.position - Player.transform.position;
-        cameraFollow = true;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        toggleFollowAction = InputSystem.actions.FindAction("Y");
+        holdFollowAction = InputSystem.actions.FindAction("Space");
+        cameraDistance = transform.position - player.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Y.WasPressedThisFrame())
+        if (toggleFollowAction.WasPressedThisFrame())
         {
             cameraFollow = !cameraFollow;
         }
 
-        if (cameraFollow)
+        if (cameraFollow || holdFollowAction.IsPressed())
         {
             LockedCamera();
         }
-        else
+        else if (IsTouchingEdge())
         {
-            if (Space.IsPressed())
-            {
-                LockedCamera();
-            }
-            if (IsTouchingEdge())
-            {
-                UnlockedCameraMovement();
-            }
+            UnlockedCameraMovement();
         }
+
+        ClampCameraPosition();
     }
 
-    void LockedCamera()
+    private void LockedCamera()
     {
-        transform.position = Player.transform.position + cameraDistance;
+        transform.position = player.position + cameraDistance;
     }
 
-    bool IsTouchingEdge()
+    private bool IsTouchingEdge()
     {
         mousePosition = Input.mousePosition;
         isTouchingLeftEdge = mousePosition.x <= edgeThreshold;
@@ -75,31 +69,35 @@ public class CameraFollowPlayer : MonoBehaviour
         return isTouchingBottomEdge || isTouchingLeftEdge || isTouchingRightEdge || isTouchingTopEdge;
     }
 
-    void UnlockedCameraMovement()
+    private void UnlockedCameraMovement()
     {
+        Vector3 position = transform.position;
+
         if (isTouchingLeftEdge)
         {
-            cameraPosition = transform.position;
-            cameraPosition.x -= cameraMoveSpeed * Time.deltaTime;
-            transform.position = cameraPosition;
+            position.x -= cameraMoveSpeed * Time.deltaTime;
         }
         if (isTouchingRightEdge)
         {
-            cameraPosition = transform.position;
-            cameraPosition.x += cameraMoveSpeed * Time.deltaTime;
-            transform.position = cameraPosition;
+            position.x += cameraMoveSpeed * Time.deltaTime;
         }
         if (isTouchingTopEdge)
         {
-            cameraPosition = transform.position;
-            cameraPosition.z += cameraMoveSpeed * Time.deltaTime;
-            transform.position = cameraPosition;
+            position.z += cameraMoveSpeed * Time.deltaTime;
         }
         if (isTouchingBottomEdge)
         {
-            cameraPosition = transform.position;
-            cameraPosition.z -= cameraMoveSpeed * Time.deltaTime;
-            transform.position = cameraPosition;
+            position.z -= cameraMoveSpeed * Time.deltaTime;
         }
+
+        transform.position = position;
+    }
+
+    private void ClampCameraPosition()
+    {
+        Vector3 position = transform.position;
+        position.x = Mathf.Clamp(position.x, minBounds.x, maxBounds.x);
+        position.z = Mathf.Clamp(position.z, minBounds.y, maxBounds.y);
+        transform.position = position;
     }
 }
