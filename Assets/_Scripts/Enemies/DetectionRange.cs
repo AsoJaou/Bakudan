@@ -1,7 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Watches for player or payload entering an enemy's detonation radius.
 public class DetectionRange : MonoBehaviour
 {
     private GameObject TrainingDummy;
@@ -13,6 +14,7 @@ public class DetectionRange : MonoBehaviour
 
     private void Awake()
     {
+        // Cache references so the enemy can show its blast warning.
         TrainingDummy = transform.parent.gameObject;
         enemyStats = TrainingDummy.GetComponent<EnemyStats>();
 
@@ -27,6 +29,7 @@ public class DetectionRange : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Begin the fuse when a valid target steps inside the sphere.
         if (other.CompareTag("Player Collider") || other.CompareTag("Payload Collider"))
         {
             detectedObjects.Add(other.gameObject);
@@ -36,6 +39,7 @@ public class DetectionRange : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        // Stop tracking objects that back out before detonation.
         if (other.CompareTag("Player Collider") || other.CompareTag("Payload Collider"))
         {
             detectedObjects.Remove(other.gameObject);
@@ -44,6 +48,7 @@ public class DetectionRange : MonoBehaviour
 
     IEnumerator ExplosionCountdown()
     {
+        // Flash the blast radius for a short warning, then detonate.
         SetRadius(enemyStats.attackRange * 0.1f);
         lineRenderer.enabled = true;
         yield return new WaitForSeconds(2f);
@@ -82,6 +87,7 @@ public class DetectionRange : MonoBehaviour
             }
         }
 
+        // Remove the attacker from tracking once it explodes.
         GameManager.Instance.RemoveEnemyFromRange(transform.parent.gameObject);
         Destroy(transform.parent.gameObject);
     }

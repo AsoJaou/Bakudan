@@ -1,18 +1,19 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Routes mouse and keyboard input into player actions and targeting.
 public class InputManager : MonoBehaviour
 {
-    //Input Actions
+    // Handles mouse clicks and attack modifier key.
     private InputAction rightClick;
     private InputAction leftClick;
     private InputAction aKey;
 
-    //Input Receivers
+    // Targets that receive movement or attack commands.
     private GameObject player;
     private GameObject attackRange;
 
-    //Raycast Variables
+    // Cached raycast info from the latest cursor check.
     private Vector3 hitPosition;
     private GameObject hitObject;
 
@@ -20,6 +21,7 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+        // Look up the controlled player and grab its helper objects.
         player = GameObject.FindGameObjectWithTag("Player");
         attackRange = player.transform.Find("Attack Range").gameObject;
 
@@ -43,7 +45,7 @@ public class InputManager : MonoBehaviour
             attackRange.SendMessage("HideAttackRange");
         }
 
-        //Right Click
+        // Right mouse button steers the player or triggers quick attacks.
         if (rightClick.WasPressedThisFrame())
         {
             if (readyToAttack)
@@ -67,13 +69,14 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        //A Key Input
+        // Holding A keeps the range indicator visible for targeted attacks.
         if (aKey.IsPressed())
         {
             readyToAttack = true;
             attackRange.SendMessage("ShowAttackRange");
         }
 
+        // Left click confirms the target while in attack-readiness mode.
         if (leftClick.WasPressedThisFrame() && readyToAttack)
         {
             if (LayerMask.LayerToName(hitObject.layer) == "Enemy")
@@ -102,7 +105,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    //Raycast
+    // Casts a ray from the cursor to see what the player is pointing at.
     RaycastHit? MouseLayerDetection()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

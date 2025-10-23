@@ -1,6 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
+// Moves a projectile toward its target and applies damage on contact.
 public class NormalAttack : MonoBehaviour
 {
     private const float baseAttackSpeed = 15f;
@@ -19,6 +20,7 @@ public class NormalAttack : MonoBehaviour
             return;
         }
 
+        // Start chasing the target until it is hit or lost.
         StartCoroutine(FollowTarget());
     }
 
@@ -41,6 +43,7 @@ public class NormalAttack : MonoBehaviour
             {
                 if (currentTarget != null)
                 {
+                    // Notify the target that it has taken standard attack damage.
                     currentTarget.SendMessage("HealthChange", -PlayerStats.Instance.AttackDamage, SendMessageOptions.DontRequireReceiver);
                 }
                 break;

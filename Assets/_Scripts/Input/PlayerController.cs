@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.AI;
 using System.Collections;
@@ -7,12 +7,12 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
-    //Input Actions
+    // Handles mouse and keyboard input bindings.
     private InputAction rightClick;
     private InputAction leftClick;
     private InputAction aKey;
 
-    //Movement Variables
+    // Tracks movement targets and owns the NavMesh agent.
     private Coroutine isMoving;
     private Vector3 currentPos;
     private Vector3 targetPos;
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 direction;
     private NavMeshAgent agent;
 
-    //Attack Range Variables
+    // Manages attack range checks and chosen enemy.
     private GameObject attackRange;
     private AttackRange attackRangeComponent;
     private GameObject closestEnemy;
@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        // Cache components and grab the input actions we listen to.
         agent = GetComponent<NavMeshAgent>();
         attackRange = transform.Find("Attack Range").gameObject;
         if (attackRange != null)
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        // Force the agent to react instantly while we handle rotation ourselves.
         agent.acceleration = 9999f;
         agent.angularSpeed = 0f;
         agent.updateRotation = false;
@@ -50,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Nav Agent Movement
+        // Keep moving along the agent path and face the travel direction.
         if (agent.hasPath)
         {
             Vector3 moveDir = agent.desiredVelocity.normalized;
@@ -65,12 +67,14 @@ public class PlayerController : MonoBehaviour
 
     void MoveToPosition(Vector3 target)
     {
+        // Walk toward the requested point.
         StopMoving();
         agent.SetDestination(target);
     }
 
     void MoveToAttack(GameObject target)
     {
+        // Close the gap to the selected enemy.
         StopMoving();
 
         targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
@@ -79,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
     public void StopMoving()
     {
+        // Cancel the active path immediately.
         agent.ResetPath();
         agent.velocity = Vector3.zero;
         agent.Warp(transform.position);
@@ -86,6 +91,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator MoveToAttackCorutine(GameObject target, Vector3 targetPos)
     {
+        // Chase until the enemy is reported inside attack range, then strike.
         agent.SetDestination(targetPos);
         while (!GameManager.Instance.EnemiesInRange.Contains(target))
         {
@@ -95,3 +101,4 @@ public class PlayerController : MonoBehaviour
         attackRangeComponent?.NormalAttack(target);
     }
 }
+

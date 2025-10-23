@@ -1,5 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
+// Tracks core stats and death logic for enemy units.
 public class EnemyStats : MonoBehaviour
 {
     public string enemyName;
@@ -15,6 +16,7 @@ public class EnemyStats : MonoBehaviour
 
     private void Awake()
     {
+        // Grab the UI element that displays this enemy's health.
         healthBar = transform.Find("Healthbar Canvas").gameObject;
     }
 
@@ -25,6 +27,7 @@ public class EnemyStats : MonoBehaviour
 
     void HealthChange(float health)
     {
+        // Apply incoming healing or damage and update the bar.
         currentHealth = Mathf.Clamp(currentHealth + health, 0, maxHealth);
 
         healthBar.SendMessage("UpdateHealthbar", currentHealth / maxHealth);
@@ -37,6 +40,7 @@ public class EnemyStats : MonoBehaviour
 
     void Die()
     {
+        // Clean up references and remove the enemy from the scene.
         if (GameManager.Instance.EnemiesInRange.Contains(gameObject))
         {
             GameManager.Instance.RemoveEnemyFromRange(gameObject);

@@ -1,6 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
+// Maintains the player's attack detection area and launches basic attacks.
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(SphereCollider))]
 public class AttackRange : MonoBehaviour
@@ -17,6 +18,7 @@ public class AttackRange : MonoBehaviour
 
     private void Awake()
     {
+        // Locate required scene references and cache rendering components.
         player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -44,6 +46,7 @@ public class AttackRange : MonoBehaviour
 
     private void Update()
     {
+        // Keep the visual and collider radius aligned with current stats.
         SetRadius(PlayerStats.Instance.AttackRange * 0.1f);
     }
 
@@ -66,16 +69,19 @@ public class AttackRange : MonoBehaviour
 
     public void ShowAttackRange()
     {
+        // Reveal the range indicator while the player is aiming.
         lineRenderer.enabled = true;
     }
 
     public void HideAttackRange()
     {
+        // Hide the visual when the player is not preparing an attack.
         lineRenderer.enabled = false;
     }
 
     private void OnTriggerEnter(Collider Enemy)
     {
+        // Track enemies that slip into the attack sphere.
         if (Enemy.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             GameManager.Instance.AddEnemyToRange(Enemy.gameObject.transform.parent.gameObject);
@@ -84,6 +90,7 @@ public class AttackRange : MonoBehaviour
 
     private void OnTriggerExit(Collider Enemy)
     {
+        // Stop considering enemies once they leave our radius.
         if (Enemy.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             GameManager.Instance.RemoveEnemyFromRange(Enemy.gameObject.transform.parent.gameObject);
@@ -92,6 +99,7 @@ public class AttackRange : MonoBehaviour
 
     private void AttackClosestEnemy(Vector3 HitPosition)
     {
+        // Pick whichever enemy sits nearest to the cursor impact point.
         GameObject closestEnemy = null;
         float closestEnemyDistance = Mathf.Infinity;
         foreach (GameObject enemy in GameManager.Instance.EnemiesInRange)
@@ -114,6 +122,7 @@ public class AttackRange : MonoBehaviour
             return;
         }
 
+        // Cut movement so attacks fire from a stationary position.
         if (playerController != null)
         {
             playerController.StopMoving();
@@ -127,6 +136,7 @@ public class AttackRange : MonoBehaviour
             return;
         }
 
+        // Spawn the projectile and send it toward the chosen target.
         GameObject normalAttackInstance = Instantiate(normalAttackPrefab);
         normalAttackInstance.transform.position = transform.position;
         normalAttackInstance.transform.LookAt(target.transform);

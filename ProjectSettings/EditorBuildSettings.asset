@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MapOneScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Menu.unity
+    guid: 22808d5404a5a0b4293b9bffe31da1ff
   - enabled: 1
     path: Assets/Scenes/VictoryScene.unity
     guid: 275f2a2c97d0dbb4e91db1a383f6deae
@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/DefeatScene.unity
     guid: 14332fb1ccab2de4fada1380838ad893
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
-    guid: 22808d5404a5a0b4293b9bffe31da1ff
+    path: Assets/Scenes/MapOneScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 537fa7fc4f2818c4da8015a2d74adbdc, type: 3}
   m_UseUCBPForAssetBundles: 0

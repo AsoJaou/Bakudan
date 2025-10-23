@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// Mirrors the player's health values onto the HUD bar and text readout.
 public class PlayerHealthUI : MonoBehaviour
 {
     [SerializeField] private Image healthBarSprite;
@@ -9,6 +10,7 @@ public class PlayerHealthUI : MonoBehaviour
 
     private void Start()
     {
+        // Initialize the display at full health when gameplay begins.
         if (healthBarSprite != null)
         {
             healthBarSprite.fillAmount = 1f;
@@ -26,6 +28,7 @@ public class PlayerHealthUI : MonoBehaviour
 
         if (PlayerStats.Instance.CurrentHealth <= 300 && PlayerStats.Instance.CurrentHealth > 100)
         {
+            // Yellow tint warns the player they are mid-health.
             healthBarSprite.color = Color.orange;
         }
         else if (PlayerStats.Instance.CurrentHealth <= 100)

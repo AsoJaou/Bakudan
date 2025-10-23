@@ -1,5 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
+// Holds base player stats and keeps the singleton instance alive.
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance { get; private set; }
@@ -25,6 +26,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Awake()
     {
+        // Enforce a single persistent instance for easy global access.
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -52,6 +54,7 @@ public class PlayerStats : MonoBehaviour
 
         if (currentHealth <= 0f)
         {
+            // Notify the scene manager so the defeat flow can run.
             sceneManager.SendMessage("LoadScene", "DefeatScene");
         }
     }

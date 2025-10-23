@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Tracks enemies that are currently inside the player attack range.
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        // Ensure there is a single shared manager for range bookkeeping.
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
